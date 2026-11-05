@@ -7,6 +7,8 @@
  * old URL here mapped to its closest new page. Test with e2e/redirects.spec.ts.
  */
 export const legacyRedirects: { source: string; destination: string }[] = [
+  { source: "/team-members", destination: "/people" }, // confirmed old URL
+  { source: "/team-members/:path*", destination: "/people" },
   { source: "/team", destination: "/people" },
   { source: "/team/:path*", destination: "/people" },
   { source: "/our-team", destination: "/people" },

@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 test.describe("SEO", () => {
   test("legacy WordPress URLs redirect permanently", async ({ request }) => {
     for (const [from, to] of [
+      ["/team-members", "/people"],
       ["/team", "/people"],
       ["/team/ali-parsa", "/people"],
       ["/contact-us", "/contact"],

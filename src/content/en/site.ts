@@ -3,9 +3,8 @@ import type { SiteSettingsInput } from "@/lib/content/schema";
 /**
  * Site-wide settings and contact facts.
  *
- * TODO(content): every [bracketed] value is a placeholder. docs/voice.md
- * requires facts to come from AION, and the current site could not be fetched
- * from the build environment, so nothing here is guessed.
+ * Facts supplied by AION (Nov 2026). Any remaining [bracketed] value is a
+ * placeholder still to be confirmed; nothing here is guessed.
  */
 export const site = {
   name: "AION Consultancy",
@@ -22,12 +21,14 @@ export const site = {
     // TEMPORARY: personal inbox until an @aionconsults.com mailbox is set up
     // (the domain currently has no MX records). Switch to aliparsa@aionconsults.com.
     email: "argp2018@outlook.com",
-    phone: "[+44 phone]",
-    phoneHref: "",
+    phone: "+44 7957 287341",
+    phoneHref: "+447957287341",
     linkedin: "",
   },
-  offices: [{ name: "London", lines: ["[Office address line 1]", "[City, postcode]"] }],
-  company: { number: "[placeholder]", registeredOffice: "[registered office address]" },
+  offices: [{ name: "Manchester", lines: ["Apartment 5, 32 Range Road", "Manchester M16 8ES"] }],
+  // Companies House: AION CONSULTANCY LTD, company number 11807812.
+  // TODO(content): registered office address as shown on Companies House.
+  company: { number: "11807812", registeredOffice: "[registered office address]" },
   // TODO(content): confirm who founded the firm (e.g. ["ali-parsa"]); used in JSON-LD.
   founders: [],
   // TODO(content): countries/regions served (e.g. "United Kingdom", "Gulf states").

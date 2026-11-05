@@ -23,13 +23,15 @@ test.describe("people", () => {
     expect(data["@type"]).toBe("Person");
     expect(data.name).toBe("Ali Parsa");
     expect(data.honorificPrefix).toBe("Prof.");
-    expect(data.honorificSuffix).toBe("FRICS");
+    expect(data.honorificSuffix).toBe("M.Phil, PhD, FRICS, FRSA");
+    expect(data.jobTitle).toBe("Partner and Director");
+    expect(data.alumniOf[0].name).toBe("University of Newcastle upon Tyne");
     expect(data.worksFor).toMatchObject({
       "@type": "ProfessionalService",
       name: "AION Consultancy",
     });
     // Placeholder values are never emitted.
-    expect(JSON.stringify(data)).not.toMatch(/\[.+\]/);
+    expect(JSON.stringify(data)).not.toMatch(/"\[[^"\]]+\]"/);
   });
 
   test("person page has no contact details", async ({ page }) => {
