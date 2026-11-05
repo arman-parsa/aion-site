@@ -44,7 +44,7 @@ export default function HomePage() {
         {/* Legibility scrim behind the type block (functional, not decorative). */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-linear-to-r from-scrim/60 via-scrim/25 to-transparent"
+          className="absolute inset-0 bg-linear-to-r from-scrim/75 via-scrim/40 to-transparent"
         />
         <div
           aria-hidden

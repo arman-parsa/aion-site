@@ -12,11 +12,11 @@ export const pages = {
       "Research, strategy and executive education for the people shaping cities and property markets.",
     hero: {
       image: {
-        src: "/images/home/hero-copper-wave.jpg",
-        alt: "A sweeping copper-clad building curving down to a reflecting pool at dusk",
-        width: 1500,
-        height: 1001,
-        credit: "Unsplash",
+        src: "/images/home/hero-timber-house.jpg",
+        alt: "A modern timber and glass house lit at dusk beneath a large gum tree, with a lawn in front",
+        width: 2400,
+        height: 1600,
+        credit: "Unsplash (photo-1600585154340)",
       },
       cta: { label: "Explore", href: "/expertise" },
     },
