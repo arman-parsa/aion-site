@@ -90,7 +90,12 @@ async function main() {
   }
 
   const extra = (process.env.ROUTES ?? "").split(",").filter(Boolean);
-  const routes = [...new Set([...(await discoverRoutes(APP_DIR)), ...extra])].sort();
+  // ONLY="/a,/b" limits to those routes; VIEWPORTS="mobile,desktop" limits sizes.
+  const only = (process.env.ONLY ?? "").split(",").filter(Boolean);
+  const routes = only.length
+    ? only
+    : [...new Set([...(await discoverRoutes(APP_DIR)), ...extra])].sort();
+  const wanted = (process.env.VIEWPORTS ?? "").split(",").filter(Boolean);
   await mkdir(OUT_DIR, { recursive: true });
 
   const browser = await chromium.launch(
@@ -98,6 +103,7 @@ async function main() {
   );
   try {
     for (const [name, viewport] of Object.entries(viewports)) {
+      if (wanted.length && !wanted.includes(name)) continue;
       const context = await browser.newContext({
         viewport,
         deviceScaleFactor: 1,

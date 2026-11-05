@@ -34,6 +34,15 @@ export const ui = {
   notFound: { home: "Home", links: "Try one of these" },
   error: { retry: "Try again", home: "Back to the home page" },
   listing: { readMore: "Read more", placeholderBadge: "Placeholder" },
+  expertise: {
+    pillarsLabel: "Our three pillars",
+    methods: "Methods",
+    explore: "Explore",
+    whatWeDo: "What we do",
+    outcomes: "Outcomes",
+    relatedWork: "Related work",
+    next: "Next",
+  },
 } as const;
 
 export type UiStrings = typeof ui;

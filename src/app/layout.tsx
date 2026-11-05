@@ -15,7 +15,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" dir="ltr" className={fontVariables}>
+    <html lang="en" dir="ltr" className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script
+          // Enables motion pre-states (see globals.css). Runs before paint.
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-ok')",
+          }}
+        />
+      </head>
       <body>
         {children}
         <Analytics />

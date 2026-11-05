@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { IndexList, PageIntro } from "@/components/sections";
-import { Section } from "@/components/ui";
-import { getPage, getServices } from "@/lib/content";
+import { SplitHeading } from "@/components/motion";
+import { PillarBlock } from "@/components/sections/expertise";
+import { Eyebrow, Section, Text } from "@/components/ui";
+import { getPage, getServices, getUiStrings } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 const page = getPage("expertise");
@@ -14,18 +15,24 @@ export const metadata: Metadata = buildMetadata({
 
 export default function ExpertisePage() {
   const services = getServices();
+  const ui = getUiStrings().expertise;
   return (
     <>
-      <PageIntro eyebrow={page.eyebrow} title={page.title} intro={page.intro} />
-      <Section spacing="none" className="pb-3xl">
-        <IndexList
-          label={page.eyebrow}
-          items={services.map((s) => ({
-            href: `/expertise/${s.slug}`,
-            title: s.title,
-            meta: s.kicker,
-          }))}
-        />
+      <Section spacing="none" className="pt-page-top pb-2xl">
+        {page.eyebrow && <Eyebrow>{page.eyebrow}</Eyebrow>}
+        <SplitHeading as="h1" size={7} trigger="load" className="mt-s max-w-display">
+          {page.title}
+        </SplitHeading>
+        {page.intro && (
+          <Text size={2} tone="ink-2" className="mt-m">
+            {page.intro}
+          </Text>
+        )}
+      </Section>
+      <Section spacing="none" className="pb-3xl" aria-label={ui.pillarsLabel}>
+        {services.map((service, i) => (
+          <PillarBlock key={service.slug} service={service} index={i} labels={ui} />
+        ))}
       </Section>
     </>
   );

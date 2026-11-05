@@ -9,3 +9,4 @@ export { Media, type MediaAspect } from "./Media";
 export { Rule } from "./Rule";
 export { Section, sectionThemes, type SectionTheme } from "./Section";
 export { Text } from "./Text";
+export { Tag } from "./Tag";

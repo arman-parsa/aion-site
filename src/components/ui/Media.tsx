@@ -30,6 +30,8 @@ type MediaProps = {
   mono?: boolean;
   priority?: boolean;
   className?: string;
+  /** Extra classes on the aspect frame, e.g. a responsive aspect override. */
+  frameClassName?: string;
   imageClassName?: string;
   caption?: React.ReactNode;
 } & Pick<ImageProps, "quality" | "placeholder" | "blurDataURL">;
@@ -46,12 +48,20 @@ export function Media({
   mono = false,
   priority = false,
   className,
+  frameClassName,
   imageClassName,
   caption,
   ...imageProps
 }: MediaProps) {
   const frame = (
-    <div className={cn("relative overflow-hidden bg-paper-2", aspects[aspect], grain && "grain")}>
+    <div
+      className={cn(
+        "relative overflow-hidden bg-paper-2",
+        aspects[aspect],
+        frameClassName,
+        grain && "grain",
+      )}
+    >
       <Image
         src={src}
         alt={alt}

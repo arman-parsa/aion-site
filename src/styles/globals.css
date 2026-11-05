@@ -128,6 +128,7 @@
   --measure: 65ch;
   --container-content: 90rem; /* 1440px max content width */
   --container-measure: 65ch;
+  --container-display: 16ch; /* max line length for display headlines */
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
@@ -411,4 +412,20 @@ html.lenis body {
 }
 .lenis [data-lenis-prevent] {
   overscroll-behavior: contain;
+}
+
+/*
+ * Motion pre-states. `html.motion-ok` is added by an inline script in the root
+ * layout only when JS runs AND the user hasn't asked for reduced motion, so
+ * without JS (or with reduced motion) everything renders in its final state.
+ * Components set data-motion-ready once GSAP has taken over.
+ */
+html.motion-ok [data-split]:not([data-motion-ready]) {
+  visibility: hidden;
+}
+html.motion-ok [data-clip]:not([data-motion-ready]) {
+  clip-path: inset(100% 0% 0% 0%);
+}
+html.motion-ok [data-reveal]:not([data-motion-ready]) {
+  opacity: 0;
 }
