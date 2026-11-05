@@ -11,17 +11,12 @@ const valid = {
 
 describe("parseEnv", () => {
   it("accepts a complete server env", () => {
-    expect(parseEnv(valid, { server: true }).CONTACT_TO_EMAIL).toBe(
-      "hello@example.com",
-    );
+    expect(parseEnv(valid, { server: true }).CONTACT_TO_EMAIL).toBe("hello@example.com");
   });
 
   it("fails with a readable message listing bad keys", () => {
     expect(() =>
-      parseEnv(
-        { ...valid, CONTACT_TO_EMAIL: "nope", RESEND_API_KEY: undefined },
-        { server: true },
-      ),
+      parseEnv({ ...valid, CONTACT_TO_EMAIL: "nope", RESEND_API_KEY: undefined }, { server: true }),
     ).toThrow(/CONTACT_TO_EMAIL[\s\S]*|RESEND_API_KEY/);
   });
 

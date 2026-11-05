@@ -53,14 +53,10 @@ export function parseEnv(
   raw: Partial<RawEnv>,
   options: { server: boolean } = { server: isServer },
 ): Env {
-  const schema = options.server
-    ? serverSchema.extend(clientSchema.shape)
-    : clientSchema;
+  const schema = options.server ? serverSchema.extend(clientSchema.shape) : clientSchema;
   const result = schema.safeParse(raw);
   if (!result.success) {
-    throw new Error(
-      `❌ Invalid environment variables:\n${formatIssues(result.error)}`,
-    );
+    throw new Error(`❌ Invalid environment variables:\n${formatIssues(result.error)}`);
   }
   const data = result.data as Env;
   if (options.server) return data;
@@ -69,9 +65,7 @@ export function parseEnv(
   return new Proxy(data, {
     get(target, prop: string) {
       if (prop in serverSchema.shape) {
-        throw new Error(
-          `❌ Attempted to access server-only env var "${prop}" on the client.`,
-        );
+        throw new Error(`❌ Attempted to access server-only env var "${prop}" on the client.`);
       }
       return target[prop as keyof Env];
     },

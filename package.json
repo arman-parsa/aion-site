@@ -15,7 +15,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "screenshot": "node scripts/screenshot.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "tokens": "node scripts/tokens.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
@@ -52,5 +53,6 @@
   "packageManager": "pnpm@10.28.0",
   "engines": {
     "node": ">=20.9.0"
-  }
+  },
+  "type": "module"
 }

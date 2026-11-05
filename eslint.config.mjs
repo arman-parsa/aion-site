@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     files: ["**/*.{js,jsx,mjs,ts,tsx}"],
     rules: jsxA11y.flatConfigs.recommended.rules,
   },
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", ignoreRestSiblings: true },
+      ],
+    },
+  },
   globalIgnores([
     ".next/**",
     "out/**",
