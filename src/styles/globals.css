@@ -1,0 +1,431 @@
+@import "tailwindcss";
+
+/*
+ * AION design tokens.
+ *
+ * Colour roles are raw custom properties on :root so sections can re-theme
+ * (.theme-ink / .theme-paper) by redefining them; @theme inline maps them to
+ * Tailwind utilities (bg-paper, text-ink, border-rule, …) that follow the
+ * cascade. Fluid type/space values are generated from src/styles/tokens.ts
+ * (run `pnpm tokens`); tokens.test.ts guards against drift.
+ */
+
+/* ---------------------------------------------------------------- colour */
+
+:root,
+.theme-paper {
+  --paper: #f2efe9;
+  --paper-2: #e8e3da;
+  --ink: #141414;
+  --ink-2: #3a3a38;
+  --stone: #8c877e; /* decorative / large text only: 3.1:1 on paper */
+  --accent: #b4532a; /* copper: fills, rules, focus, large type */
+  --accent-ink: #ffffff; /* text on copper: 5.0:1 */
+  --accent-text: #a04822; /* copper for small text on paper: 5.3:1 */
+}
+
+.theme-ink {
+  --paper: #141414;
+  --paper-2: #1f1f1e;
+  --ink: #f2efe9;
+  --ink-2: #c9c4ba;
+  --stone: #8c877e; /* 5.2:1 on ink */
+  --accent: #b4532a;
+  --accent-ink: #ffffff;
+  --accent-text: #d4774e; /* 5.7:1 on ink */
+}
+
+/* Derived roles must be re-declared wherever the base roles change. */
+:root,
+.theme-paper,
+.theme-ink {
+  --rule: color-mix(in oklab, var(--ink) 15%, transparent);
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-*: initial;
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-stone: var(--stone);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
+  /* Pure white for mix-blend-difference overlays (header): renders as ink on
+     paper and as near-white on dark photos. Not for ordinary text. */
+  --color-blend: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+}
+
+/* Fonts: emitted as real custom properties so non-utility CSS can use them. */
+@theme static {
+  /* --ff-* are set by next/font in src/styles/fonts.ts. */
+  --font-display: var(--ff-display), ui-serif, Georgia, serif;
+  --font-display-italic: var(--ff-display-italic), var(--ff-display), ui-serif, Georgia, serif;
+  --font-sans: var(--ff-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--ff-mono), ui-monospace, monospace;
+}
+
+/* --------------------------------------------------- type, space, motion */
+
+@theme static {
+  --text-*: initial;
+  --text-step--2: clamp(0.6944rem, 0.6859rem + 0.0381vw, 0.7316rem);
+  --text-step--2--line-height: 1.45;
+  --text-step--2--letter-spacing: 0.01em;
+  --text-step--1: clamp(0.8333rem, 0.8006rem + 0.1455vw, 0.9752rem);
+  --text-step--1--line-height: 1.45;
+  --text-step--1--letter-spacing: 0.01em;
+  --text-step-0: clamp(1rem, 0.9308rem + 0.3077vw, 1.3rem);
+  --text-step-0--line-height: 1.5;
+  --text-step-0--letter-spacing: 0em;
+  --text-step-1: clamp(1.2rem, 1.077rem + 0.5466vw, 1.7329rem);
+  --text-step-1--line-height: 1.3;
+  --text-step-1--letter-spacing: 0em;
+  --text-step-2: clamp(1.44rem, 1.2392rem + 0.8923vw, 2.31rem);
+  --text-step-2--line-height: 1.3;
+  --text-step-2--letter-spacing: 0em;
+  --text-step-3: clamp(1.728rem, 1.4162rem + 1.3858vw, 3.0792rem);
+  --text-step-3--line-height: 1.1;
+  --text-step-3--letter-spacing: -0.01em;
+  --text-step-4: clamp(2.0736rem, 1.6049rem + 2.083vw, 4.1045rem);
+  --text-step-4--line-height: 1.1;
+  --text-step-4--letter-spacing: -0.01em;
+  --text-step-5: clamp(2.4883rem, 1.7999rem + 3.0595vw, 5.4713rem);
+  --text-step-5--line-height: 0.98;
+  --text-step-5--letter-spacing: -0.02em;
+  --text-step-6: clamp(2.986rem, 1.992rem + 4.4178vw, 7.2933rem);
+  --text-step-6--line-height: 0.98;
+  --text-step-6--letter-spacing: -0.02em;
+  --text-step-7: clamp(3.5832rem, 2.1665rem + 6.2962vw, 9.722rem);
+  --text-step-7--line-height: 0.92;
+  --text-step-7--letter-spacing: -0.02em;
+  --text-step-8: clamp(4.2998rem, 2.3015rem + 8.8816vw, 12.9594rem);
+  --text-step-8--line-height: 0.92;
+  --text-step-8--letter-spacing: -0.02em;
+  --spacing-3xs: clamp(0.25rem, 0.2327rem + 0.0769vw, 0.325rem);
+  --spacing-2xs: clamp(0.5rem, 0.4654rem + 0.1538vw, 0.65rem);
+  --spacing-xs: clamp(0.75rem, 0.6981rem + 0.2308vw, 0.975rem);
+  --spacing-s: clamp(1rem, 0.9308rem + 0.3077vw, 1.3rem);
+  --spacing-m: clamp(1.5rem, 1.3962rem + 0.4615vw, 1.95rem);
+  --spacing-l: clamp(2rem, 1.8615rem + 0.6154vw, 2.6rem);
+  --spacing-xl: clamp(3rem, 2.7923rem + 0.9231vw, 3.9rem);
+  --spacing-2xl: clamp(4rem, 3.7231rem + 1.2308vw, 5.2rem);
+  --spacing-3xl: clamp(6rem, 5.5846rem + 1.8462vw, 7.8rem);
+  --spacing-4xl: clamp(8rem, 7.4462rem + 2.4615vw, 10.4rem);
+  --spacing-gutter: clamp(1.25rem, 0.8462rem + 1.7949vw, 3rem);
+  /* Height of the fixed header bar (padding + wordmark line). */
+  --spacing-header: calc(var(--spacing-s) * 2 + var(--text-step-2));
+  /* Top padding for a page's opening section (clears the fixed header). */
+  --spacing-page-top: calc(var(--spacing-header) + var(--spacing-3xl));
+  --spacing-grid-gap: clamp(0.75rem, 0.4615rem + 1.2821vw, 2rem);
+
+  --measure: 65ch;
+  --container-content: 90rem; /* 1440px max content width */
+  --container-measure: 65ch;
+  --container-display: 16ch; /* max line length for display headlines */
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --transition-duration-fast: 200ms;
+  --transition-duration-base: 400ms;
+  --transition-duration-slow: 800ms;
+  --transition-duration-slower: 1200ms;
+
+  --default-transition-duration: 400ms;
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --aspect-square: 1 / 1;
+  --aspect-portrait: 4 / 5;
+  --aspect-tall: 3 / 4;
+  --aspect-landscape: 3 / 2;
+  --aspect-wide: 16 / 9;
+  --aspect-cinema: 21 / 9;
+
+  --border-width-hairline: 1px;
+  --tracking-label: 0.08em;
+}
+
+/* Plain custom properties for CSS/JS motion code that can't use utilities. */
+:root {
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 800ms;
+  --duration-slower: 1200ms;
+  --hairline: 1px solid var(--rule);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+  --gutter: var(--spacing-gutter);
+  --grid-gap: var(--spacing-grid-gap);
+  /* Inline SVG fractal noise for the film-grain overlay on Media. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ----------------------------------------------------------------- base */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    hanging-punctuation: first allow-end last;
+    font-family: var(--font-sans);
+    font-size: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: var(--text-step-0);
+    line-height: var(--text-step-0--line-height);
+    background-color: var(--paper);
+    color: var(--ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+    font-weight: 400;
+  }
+
+  p,
+  li,
+  blockquote,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  /* Reading measure for running text. Lists/grids opt in with .measure. */
+  p,
+  blockquote,
+  figcaption {
+    max-inline-size: var(--measure);
+  }
+
+  /* Display italic: swap to the dedicated italic face (not synthesised). */
+  .font-display em,
+  .font-display i,
+  em.font-display,
+  .font-display-italic {
+    font-family: var(--font-display-italic);
+    font-style: italic;
+  }
+
+  hr {
+    border: 0;
+    border-block-start: var(--hairline);
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--paper);
+  }
+
+  .theme-ink ::selection {
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--accent);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------- utilities */
+
+/* Page layout grid: [full [breakout [content] breakout] full]. Children sit in
+   the content column by default; .breakout and .full-bleed widen them. */
+@utility layout-grid {
+  --breakout-extra: calc(var(--gutter) * 2);
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(var(--gutter), 1fr)
+    [breakout-start] minmax(0, var(--breakout-extra))
+    [content-start] min(
+      100% - var(--gutter) * 2 - var(--breakout-extra) * 2,
+      var(--container-content)
+    )
+    [content-end] minmax(0, var(--breakout-extra))
+    [breakout-end] minmax(var(--gutter), 1fr) [full-end];
+
+  & > * {
+    grid-column: content;
+  }
+}
+
+@utility full-bleed {
+  grid-column: full !important;
+}
+
+@utility breakout {
+  grid-column: breakout !important;
+}
+
+/* 12-column grid. Use col-span-* / col-start-* on children. */
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+}
+
+@utility rule {
+  border-block-start: var(--hairline);
+}
+
+@utility rule-b {
+  border-block-end: var(--hairline);
+}
+
+@utility measure {
+  max-inline-size: var(--measure);
+}
+
+/* Small uppercase mono metadata label. */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: var(--text-step--2);
+  line-height: var(--text-step--2--line-height);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* Underline that draws in from the inline-start edge on hover/focus. */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0% 100%;
+  transition: background-size var(--duration-base) var(--ease-out-expo);
+  padding-block-end: 0.08em;
+
+  &:dir(rtl) {
+    background-position: 100% 100%;
+  }
+
+  &:hover,
+  &:focus-visible,
+  :where(.group):hover &,
+  :where(.group):focus-visible & {
+    background-size: 100% 1px;
+  }
+}
+
+/* Same, but underlined at rest; the hover redraws it from the start edge. */
+@utility link-underline-rest {
+  background-image:
+    linear-gradient(currentColor, currentColor), linear-gradient(var(--rule), var(--rule));
+  background-repeat: no-repeat;
+  background-size:
+    0% 1px,
+    100% 1px;
+  background-position:
+    0% 100%,
+    0% 100%;
+  transition: background-size var(--duration-base) var(--ease-out-expo);
+  padding-block-end: 0.08em;
+
+  &:dir(rtl) {
+    background-position:
+      100% 100%,
+      100% 100%;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-size:
+      100% 1px,
+      100% 1px;
+  }
+}
+
+@utility grain {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--grain);
+    background-size: 160px 160px;
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+  }
+}
+
+@utility sr-only-focusable {
+  &:not(:focus, :focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* Lists where hovering/focusing one item dims the others (menu, index lists). */
+@utility dim-siblings {
+  & > * {
+    transition: opacity var(--duration-base) var(--ease-out-expo);
+  }
+  &:has(> :hover, > :has(:focus-visible)) > :not(:hover, :has(:focus-visible)) {
+    opacity: 0.3;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/*
+ * Motion pre-states. `html.motion-ok` is added by an inline script in the root
+ * layout only when JS runs AND the user hasn't asked for reduced motion, so
+ * without JS (or with reduced motion) everything renders in its final state.
+ * Components set data-motion-ready once GSAP has taken over.
+ */
+html.motion-ok [data-split]:not([data-motion-ready]) {
+  visibility: hidden;
+}
+html.motion-ok [data-clip]:not([data-motion-ready]) {
+  clip-path: inset(100% 0% 0% 0%);
+}
+html.motion-ok [data-reveal]:not([data-motion-ready]) {
+  opacity: 0;
+}
