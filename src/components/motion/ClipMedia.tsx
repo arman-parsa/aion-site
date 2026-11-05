@@ -13,7 +13,12 @@ type Props = {
   zoom?: boolean;
 };
 
-/** Reveals its media with a clip-path wipe from the bottom up. */
+/**
+ * Reveals its media with a clip-path wipe from the bottom up when scrolled
+ * into view. With trigger="load" (first-screen, priority images) the media is
+ * never hidden: it is visible from first paint (LCP-safe) and only settles in
+ * with a slow scale.
+ */
 export function ClipMedia({ children, className, trigger = "scroll", zoom = true }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -23,14 +28,21 @@ export function ClipMedia({ children, className, trigger = "scroll", zoom = true
       if (!el) return;
       el.dataset.motionReady = "";
       if (prefersReducedMotion()) return;
-      const st = trigger === "scroll" ? { trigger: el, start: "top 85%", once: true } : undefined;
-      const tl = gsap.timeline({ scrollTrigger: st });
+      const img = el.querySelector("img");
+
+      if (trigger === "load") {
+        const tween = img
+          ? gsap.fromTo(img, { scale: 1.06 }, { scale: 1, duration: 1.6, ease: EASE_OUT_EXPO })
+          : null;
+        return () => tween?.kill();
+      }
+
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 85%", once: true } });
       tl.fromTo(
         el,
         { clipPath: "inset(100% 0% 0% 0%)" },
         { clipPath: "inset(0% 0% 0% 0%)", duration: 1.2, ease: EASE_OUT_EXPO },
       );
-      const img = el.querySelector("img");
       if (zoom && img)
         tl.fromTo(img, { scale: 1.12 }, { scale: 1, duration: 1.6, ease: EASE_OUT_EXPO }, 0);
       return () => tl.kill();
@@ -39,7 +51,12 @@ export function ClipMedia({ children, className, trigger = "scroll", zoom = true
   );
 
   return (
-    <div ref={ref} data-clip className={cn("overflow-hidden", className)}>
+    <div
+      ref={ref}
+      // Only scroll-triggered media start clipped (see the pre-states in globals.css).
+      data-clip={trigger === "scroll" ? "" : undefined}
+      className={cn("overflow-hidden", className)}
+    >
       {children}
     </div>
   );

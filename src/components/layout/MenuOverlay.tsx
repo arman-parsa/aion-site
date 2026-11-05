@@ -73,6 +73,7 @@ export function MenuOverlay({ items, label }: Props) {
           gsap.set(el, { autoAlpha: 0, clipPath: "inset(0% 0% 100% 0%)" });
           return;
         }
+        gsap.killTweensOf([el, lines]);
         gsap.to(el, {
           clipPath: "inset(0% 0% 100% 0%)",
           duration: 0.8,

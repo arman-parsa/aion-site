@@ -85,7 +85,7 @@ export function PeopleIndex({ people, labels }: Props) {
                     width={p.portrait.width}
                     height={p.portrait.height}
                     sizes="(min-width: 1024px) 22vw, (min-width: 768px) 30vw, 45vw"
-                    className="aspect-portrait h-auto w-full object-cover transition-transform duration-slow ease-out-expo group-hover:scale-[1.03]"
+                    className="aspect-portrait h-auto w-full object-cover transition-transform duration-slow ease-out-expo group-hover:scale-103"
                   />
                 </span>
                 <span className="mt-s block font-display text-step-3">

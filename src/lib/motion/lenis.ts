@@ -9,10 +9,6 @@ export function setLenis(l: Lenis | null) {
   instance = l;
 }
 
-export function getLenis(): Lenis | null {
-  return instance;
-}
-
 /** Lock page scroll (menu open): pauses Lenis and native scrolling. */
 export function lockScroll(locked: boolean) {
   instance?.[locked ? "stop" : "start"]();

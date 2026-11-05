@@ -1,2 +1,2 @@
-export { getLenis, lockScroll } from "./lenis";
-export { prefersReducedMotion, useReducedMotion } from "./reduced-motion";
+export { lockScroll } from "./lenis";
+export { prefersReducedMotion } from "./reduced-motion";

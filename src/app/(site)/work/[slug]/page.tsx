@@ -134,7 +134,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
 
       {work.stats.length > 0 && (
         <Section theme="ink" spacing="l" aria-label={ui.results}>
-          <dl className="grid gap-l md:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
+          <dl className="grid gap-l md:grid-cols-3">
             {work.stats.map((s) => (
               <div key={s.label} className="flex flex-col pt-s rule">
                 <dt className="order-2 mt-2xs label text-ink-2">{s.label}</dt>
@@ -175,7 +175,11 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       {quote && (
         <Section spacing="xl">
           <figure className="mx-auto max-w-display text-center">
-            <blockquote className="font-display text-step-5">“{quote.quote}”</blockquote>
+            <blockquote className="font-display text-step-5">
+              {getUiStrings().quote.open}
+              {quote.quote}
+              {getUiStrings().quote.close}
+            </blockquote>
             <figcaption className="mt-m label text-ink-2">
               {[quote.attribution, quote.role, quote.org].filter(Boolean).join(", ")}
             </figcaption>

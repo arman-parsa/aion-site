@@ -25,16 +25,27 @@ Run `pnpm content:todo` to list every placeholder still in the content.
 - [ ] Cloudflare Turnstile: create a widget for aionconsults.com; set
       `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` (replace the test keys).
 - [ ] `CONTACT_TO_EMAIL`: the inbox that receives enquiries.
-- [ ] `NEXT_PUBLIC_SITE_URL=https://aionconsults.com` on Production.
+- [x] `NEXT_PUBLIC_SITE_URL=https://aionconsults.com` on Production.
 - [ ] Optional, Preview only: `CONTENT_PREVIEW=1` to review hidden sections and placeholders.
 - [ ] Vercel plan: Pro (Hobby is non-commercial only).
+
+## Open decisions
+- [ ] JS budget: every route ships ~233 kB gzipped (budget 150 kB). ~155 kB is the
+      React/Next framework itself; ~65 kB is GSAP + ScrollTrigger + SplitText + Lenis.
+      Options: (a) accept and judge by Lighthouse on the live site, (b) drop Lenis smooth
+      scroll and SplitText for CSS equivalents (~35–45 kB saved), (c) both plus lazy-load
+      ScrollTrigger only on pages that use it.
+- [ ] Contact form client validation uses full Zod (~34 kB on /contact). Could move to
+      native constraint validation + `zod/mini` if the budget matters.
 
 ## Domain and email (GoDaddy DNS)
 - [ ] Set up email (Google Workspace or Microsoft 365) and add its MX/SPF/DKIM records.
 - [ ] Old site's URLs: get the old sitemap (Wayback Machine or a WordPress export) and add
       every URL to `src/lib/seo/redirects.ts`.
-- [ ] Merge the site into `main`, add the domain in Vercel, then change `A @` to Vercel's
-      address and `CNAME www` to `cname.vercel-dns.com` (use the values Vercel shows).
+- [x] Domain added in Vercel (aionconsults.com, www → 308 to apex); production
+      `NEXT_PUBLIC_SITE_URL=https://aionconsults.com`.
+- [ ] GoDaddy DNS: `A @` → 216.198.79.1 and a second `A @` → 64.29.17.1 (or a single
+      76.76.21.21); `CNAME www` → 50537d49e96832e6.vercel-dns-017.com. Leave NS/SOA/_dmarc.
 
 ## After launch
 - [ ] Submit `https://aionconsults.com/sitemap.xml` in Google Search Console.

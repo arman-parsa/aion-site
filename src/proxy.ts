@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getCaseStudy, getInsight, getPerson, getService } from "@/lib/content";
+import { getCaseStudy, getPerson, getService } from "@/lib/content";
 import { gonePrefixes } from "@/lib/seo/redirects";
 
 /**
@@ -15,7 +15,6 @@ const lookups: Record<string, (slug: string) => unknown> = {
   expertise: getService,
   people: getPerson,
   work: getCaseStudy,
-  insights: getInsight,
 };
 
 export function proxy(request: NextRequest) {
@@ -39,7 +38,6 @@ export const config = {
     "/expertise/:slug",
     "/people/:slug",
     "/work/:slug",
-    "/insights/:slug",
     "/wp-admin/:path*",
     "/wp-login.php",
     "/xmlrpc.php",

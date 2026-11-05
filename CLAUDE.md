@@ -54,7 +54,9 @@ src/
 - Every image goes through `next/image` with real `alt`, `sizes`, and width/height. Hero media gets `priority`.
 - Motion: every animation must (1) be registered inside `useGSAP` with a scope ref, (2) respect `prefers-reduced-motion` (show final state, no Lenis), (3) animate only `transform`, `opacity`, `clip-path`. Content must be readable with JS disabled.
 - Accessibility target: WCAG 2.2 AA. Keyboard-navigable menu with focus trap, visible focus styles, skip link, semantic headings (one h1 per page).
-- Performance budget (mobile, Lighthouse): LCP < 2.5s, CLS < 0.05, INP < 200ms, JS per route < 150kb gzipped.
+- Performance budget (mobile, Lighthouse): LCP < 2.5s, CLS < 0.05, INP < 200ms, JS per route < 150kb gzipped. (Currently ~233 kB: ~155 kB is the React/Next framework, ~65 kB GSAP + Lenis. Open decision; see docs/launch-checklist.md.)
+- Never pre-hide the h1 or first-screen (`priority`) media behind JS; motion pre-states always have the CSS failsafe in globals.css.
+- Client components must not import `@/lib/content` (it pulls in Zod and all content). Use the slim `@/lib/content/ui-strings` or pass props.
 - No new dependency without stating why and the bundle cost.
 - Small, reviewable changes. One feature per commit, Conventional Commits (`feat:`, `fix:`, `chore:`).
 
@@ -67,4 +69,6 @@ src/
 
 ## Design direction (summary — full brief in docs/design-brief.md)
 
-Editorial, full-bleed, quiet confidence. Warm paper + ink with one accent. Large fluid serif display type, small mono labels in parentheses, hairline rules, numbered index lists, generous whitespace, photography as full-bleed plates. Motion is slow, precise and sparse: line-by-line heading reveals, clip-path image reveals, subtle parallax. Nothing bouncy.
+Editorial, full-bleed, quiet confidence. Warm paper + near-black ink with a small copper accent. The serif (Instrument Serif) is reserved for the AION wordmark only; headings and body use Inter Tight; small mono uppercase labels. Hairline rules, numbered index lists, generous whitespace, photography as full-bleed plates (section images black-and-white with a dot screen, colour on hover). Motion after oci.madebybuzzworthy.com: slow, precise and sparse: line-by-line heading reveals, clip-path image reveals, hairlines drawing in, subtle parallax, hover slides. Nothing bouncy.
+
+Production: https://aionconsults.com (Vercel project `aion-site`, team arman-projects-hub; `main` deploys to production, other branches to previews). Header colour and footer visibility per route live in `src/lib/layout/chrome.ts`.

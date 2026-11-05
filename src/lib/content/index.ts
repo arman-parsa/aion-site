@@ -98,6 +98,8 @@ export function getCaseStudy(slug: string, locale: Locale = "en"): CaseStudy | u
 }
 
 export function getCaseStudiesForService(serviceSlug: string, locale: Locale = "en"): CaseStudy[] {
+  // Never link to /work/... while the section is hidden (it would 404).
+  if (!isFeatureOn("showWork", locale)) return [];
   const service = getService(serviceSlug, locale);
   const related = new Set(service?.relatedWork ?? []);
   return getCaseStudies({}, locale).filter(

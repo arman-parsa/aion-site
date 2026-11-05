@@ -83,7 +83,7 @@ export default function WorkPage({ searchParams }: PageProps<"/work">) {
         )}
       </Section>
       <Section spacing="none" className="pb-3xl">
-        <Suspense fallback={<div className="min-h-[50vh]" />}>
+        <Suspense fallback={<div className="min-h-placeholder" />}>
           <FilteredWork searchParams={searchParams} />
         </Suspense>
       </Section>

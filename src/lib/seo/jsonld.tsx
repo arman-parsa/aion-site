@@ -7,7 +7,3 @@ export function JsonLd({ data }: { data: Record<string, unknown> | Record<string
     />
   );
 }
-
-export function absoluteUrl(path: string, base: string): string {
-  return new URL(path, base).toString();
-}

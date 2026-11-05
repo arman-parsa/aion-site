@@ -121,3 +121,23 @@ test.describe("persistent layout", () => {
     }
   });
 });
+
+test.describe("without JavaScript", () => {
+  test("home offers plain navigation links and readable content", async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    await page.goto("/");
+    const nav = page.getByRole("navigation", { name: "Site menu" });
+    await expect(nav.getByRole("link", { name: "Expertise" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Menu" })).toBeHidden();
+    await page.goto("/expertise/executive-education");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await context.close();
+  });
+});
+
+test("London clock is announced to screen readers", async ({ page, isMobile }) => {
+  test.skip(isMobile, "clock is desktop-only");
+  await page.goto("/expertise");
+  await expect(page.locator("header").getByText(/Current time in London:/)).toBeAttached();
+});

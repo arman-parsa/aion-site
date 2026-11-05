@@ -24,7 +24,6 @@ type HeadingProps = {
   /** Type-scale step. Defaults by tag: h1→7, h2→5, h3→3, h4→2, others→1. */
   size?: TypeStep;
   font?: "display" | "sans";
-  italic?: boolean;
 } & ComponentPropsWithoutRef<"h2">;
 
 const defaultSize: Record<HeadingTag, TypeStep> = {
@@ -41,17 +40,10 @@ const defaultSize: Record<HeadingTag, TypeStep> = {
 /**
  * Semantic level (`as`) and visual size (`size`) are independent, so the
  * outline stays correct (one h1 per page) whatever the design calls for.
- * Leading and tracking come from the step token. Wrap a phrase in <em> for
- * the display italic.
+ * Leading and tracking come from the step token. Wrap a phrase in <em> to set it in
+ * the quieter ink-2 tone (see globals.css).
  */
-export function Heading({
-  as = "h2",
-  size,
-  font = "display",
-  italic = false,
-  className,
-  ...props
-}: HeadingProps) {
+export function Heading({ as = "h2", size, font = "display", className, ...props }: HeadingProps) {
   const Tag = as;
   const step = size ?? defaultSize[as];
   return (
@@ -59,7 +51,6 @@ export function Heading({
       className={cn(
         stepClasses[step],
         font === "display" ? "font-display" : "font-sans font-medium",
-        italic && "font-display-italic",
         className,
       )}
       {...props}
