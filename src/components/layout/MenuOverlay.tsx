@@ -91,6 +91,10 @@ export function MenuOverlay({ items, label }: Props) {
     if (!open) return;
     const el = scope.current;
     const toggle = toggleRef.current;
+    // The header wordmark stays usable while the menu is open (link home).
+    const home = document.querySelector<HTMLElement>("[data-menu-home]");
+    const closeOnHome = () => setOpen(false);
+    home?.addEventListener("click", closeOnHome);
     const inertTargets = Array.from(document.querySelectorAll<HTMLElement>(INERT_SELECTOR));
     inertTargets.forEach((t) => (t.inert = true));
     lockScroll(true);
@@ -104,6 +108,7 @@ export function MenuOverlay({ items, label }: Props) {
       }
       if (e.key !== "Tab" || !el) return;
       const focusables = [
+        ...(home ? [home] : []),
         ...(toggle ? [toggle] : []),
         ...Array.from(el.querySelectorAll<HTMLElement>(FOCUSABLE)),
       ];
@@ -126,6 +131,7 @@ export function MenuOverlay({ items, label }: Props) {
 
     return () => {
       document.removeEventListener("keydown", onKey);
+      home?.removeEventListener("click", closeOnHome);
       inertTargets.forEach((t) => (t.inert = false));
       lockScroll(false);
       toggle?.focus({ preventScroll: true });

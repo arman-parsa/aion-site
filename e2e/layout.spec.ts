@@ -49,6 +49,10 @@ test.describe("persistent layout", () => {
       await page.keyboard.press("Tab");
       await expect(links.nth(i)).toBeFocused();
     }
+    // Wraps to the header wordmark (link home), then the toggle, then the first link.
+    const home = page.locator("[data-menu-home]");
+    await page.keyboard.press("Tab");
+    await expect(home).toBeFocused();
     await page.keyboard.press("Tab");
     await expect(btn).toBeFocused();
     await page.keyboard.press("Tab");
@@ -63,6 +67,22 @@ test.describe("persistent layout", () => {
     await expect(btn).toBeFocused();
     await expect(page.locator("#main")).toHaveJSProperty("inert", false);
     await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
+  });
+
+  test("wordmark links home while the menu is open", async ({ page }) => {
+    await page.goto("/expertise");
+    await toggle(page).click();
+    await expect(toggle(page)).toHaveAttribute("aria-expanded", "true");
+    await page.locator("[data-menu-home]").click();
+    await page.waitForURL((url) => url.pathname === "/");
+    await expect(toggle(page)).toHaveAttribute("aria-expanded", "false");
+  });
+
+  test("wordmark closes the menu when already on the home page", async ({ page }) => {
+    await page.goto("/");
+    await toggle(page).click();
+    await page.locator("[data-menu-home]").click();
+    await expect(toggle(page)).toHaveAttribute("aria-expanded", "false");
   });
 
   test("menu locks page scroll while open", async ({ page }) => {

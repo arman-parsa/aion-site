@@ -8,6 +8,7 @@ export function Wordmark({ className }: { className?: string }) {
   return (
     <NextLink
       href="/"
+      data-menu-home
       aria-label={copy.header.homeLabel}
       className={`inline-flex items-baseline gap-2xs ${className ?? ""}`}
     >

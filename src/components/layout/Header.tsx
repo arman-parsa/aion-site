@@ -13,7 +13,7 @@ export function Header() {
     <HeaderShell>
       <Container>
         <div className="grid h-header grid-cols-[1fr_auto_1fr] items-center gap-s">
-          <div data-inert-with-menu className="flex items-center justify-self-start">
+          <div className="flex items-center justify-self-start">
             <Wordmark />
           </div>
           <div data-inert-with-menu className="hidden items-center lg:flex">
