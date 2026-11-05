@@ -7,7 +7,10 @@ export function LondonClock({ label, ariaLabel }: { label: string; ariaLabel: st
   const now = useMinute();
   const time = now === null ? null : zonedParts(now).hhmm;
   return (
-    <p className="label tabular-nums" aria-label={time ? `${ariaLabel}: ${time}` : undefined}>
+    <p
+      className="label leading-none tabular-nums"
+      aria-label={time ? `${ariaLabel}: ${time}` : undefined}
+    >
       <span aria-hidden={time ? true : undefined}>{label}</span>
       {time && (
         <time aria-hidden className="ms-2xs" dateTime={time}>

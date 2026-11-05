@@ -28,6 +28,8 @@ type MediaProps = {
   grain?: boolean;
   /** Black-and-white (portraits). */
   mono?: boolean;
+  /** Ink duotone + halftone; reveals natural colour when a parent .group is hovered. */
+  duotone?: boolean;
   priority?: boolean;
   className?: string;
   /** Extra classes on the aspect frame, e.g. a responsive aspect override. */
@@ -46,6 +48,7 @@ export function Media({
   aspect = "landscape",
   grain = false,
   mono = false,
+  duotone = false,
   priority = false,
   className,
   frameClassName,
@@ -60,6 +63,7 @@ export function Media({
         aspects[aspect],
         frameClassName,
         grain && "grain",
+        duotone && "duotone",
       )}
     >
       <Image

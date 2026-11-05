@@ -4,14 +4,17 @@ import { Arrow } from "./Arrow";
 import { Link } from "./Link";
 
 const variants = {
-  /** Solid ink block. Use once per view at most. */
+  /** Solid ink block with mono uppercase label (OCI-style). Once per view at most. */
   primary:
-    "bg-ink text-paper px-m py-xs hover:bg-accent hover:text-accent-ink focus-visible:bg-accent focus-visible:text-accent-ink",
-  /** Hairline outline. */
+    "label bg-ink text-paper border border-solid border-ink px-l py-s hover:bg-transparent hover:text-ink focus-visible:bg-transparent focus-visible:text-ink",
+  /** Hairline outline, fills on hover. */
   ghost:
-    "border-hairline border-solid border-ink px-m py-xs hover:bg-ink hover:text-paper focus-visible:bg-ink focus-visible:text-paper",
+    "label border border-solid border-ink px-l py-s hover:bg-ink hover:text-paper focus-visible:bg-ink focus-visible:text-paper",
+  /** Light outline for use over photography; fills on hover. */
+  onImage:
+    "label border border-solid border-on-image text-on-image px-l py-s hover:bg-on-image hover:text-ink focus-visible:bg-on-image focus-visible:text-ink",
   /** Text link with a trailing arrow. The default CTA style. */
-  text: "link-underline-rest py-3xs",
+  text: "text-step-0 link-underline-rest py-3xs",
 } as const;
 
 type Common = {
@@ -38,7 +41,7 @@ export function Button(props: ButtonProps) {
   const { variant = "text", arrow, children, className } = props;
   const showArrow = arrow ?? variant === "text";
   const classes = cn(
-    "group inline-flex items-center gap-2xs text-step-0 leading-none transition-colors duration-base ease-out-expo",
+    "group inline-flex items-center gap-s leading-none transition-colors duration-base ease-out-expo",
     variants[variant],
     className,
   );

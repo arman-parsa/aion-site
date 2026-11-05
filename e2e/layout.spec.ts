@@ -22,7 +22,7 @@ test.describe("persistent layout", () => {
   });
 
   test("keyboard-only menu walkthrough: open, trap, Esc", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/expertise");
     const btn = toggle(page);
     await expect(btn).toHaveAttribute("aria-expanded", "false");
     await expect(btn).toHaveAttribute("aria-controls", "site-menu");
@@ -49,6 +49,10 @@ test.describe("persistent layout", () => {
       await page.keyboard.press("Tab");
       await expect(links.nth(i)).toBeFocused();
     }
+    // Wraps to the header wordmark (link home), then the toggle, then the first link.
+    const home = page.locator("[data-menu-home]");
+    await page.keyboard.press("Tab");
+    await expect(home).toBeFocused();
     await page.keyboard.press("Tab");
     await expect(btn).toBeFocused();
     await page.keyboard.press("Tab");
@@ -65,6 +69,22 @@ test.describe("persistent layout", () => {
     await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
   });
 
+  test("wordmark links home while the menu is open", async ({ page }) => {
+    await page.goto("/expertise");
+    await toggle(page).click();
+    await expect(toggle(page)).toHaveAttribute("aria-expanded", "true");
+    await page.locator("[data-menu-home]").click();
+    await page.waitForURL((url) => url.pathname === "/");
+    await expect(toggle(page)).toHaveAttribute("aria-expanded", "false");
+  });
+
+  test("wordmark closes the menu when already on the home page", async ({ page }) => {
+    await page.goto("/");
+    await toggle(page).click();
+    await page.locator("[data-menu-home]").click();
+    await expect(toggle(page)).toHaveAttribute("aria-expanded", "false");
+  });
+
   test("menu locks page scroll while open", async ({ page }) => {
     await page.goto("/");
     await toggle(page).click();
@@ -73,16 +93,25 @@ test.describe("persistent layout", () => {
     await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
   });
 
-  test("footer has CTA, legal links and back to top", async ({ page }) => {
+  test("home has no footer; other pages have legal links and back to top", async ({ page }) => {
     await page.goto("/");
+    await expect(page.locator("#site-footer")).toBeHidden();
+    await page.goto("/expertise");
     const footer = page.locator("#site-footer");
-    await expect(footer.getByRole("link", { name: /Let’s talk/ })).toHaveAttribute(
-      "href",
-      "/contact",
-    );
     await expect(footer.getByRole("link", { name: "Privacy" })).toBeVisible();
     await expect(footer.getByRole("link", { name: /Back to top/ })).toHaveAttribute("href", "#top");
     await expect(footer).toContainText(`© AION Consultancy Ltd ${new Date().getFullYear()}`);
+  });
+
+  test("header is dark on paper pages after leaving the photo hero", async ({ page }) => {
+    await page.goto("/");
+    const header = page.locator("header");
+    const lightOnHome = await header.evaluate((h) => getComputedStyle(h).color);
+    await page.getByRole("link", { name: /Explore/ }).click();
+    await page.waitForURL("**/expertise");
+    await expect(header).not.toHaveCSS("color", lightOnHome);
+    await expect(header).toHaveCSS("color", "rgb(20, 20, 20)");
+    await expect(page.locator("#site-footer")).toBeVisible();
   });
 
   test("one h1 per page", async ({ page }) => {

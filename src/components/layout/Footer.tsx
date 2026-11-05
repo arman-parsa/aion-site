@@ -18,20 +18,9 @@ export function Footer() {
   const nav = getNavigation();
 
   return (
-    <footer id="site-footer" className="theme-ink pt-3xl pb-m">
+    <footer id="site-footer" className="theme-ink pt-2xl pb-m">
       <Container>
-        <Link
-          href={copy.ctaHref}
-          underline="none"
-          className="group block font-display text-step-8 [body:has([data-hide-footer-cta])_&]:hidden"
-        >
-          <span className="link-underline">{copy.cta}</span>{" "}
-          <Arrow className="align-baseline text-step-5" />
-        </Link>
-
-        <Rule className="mt-2xl" />
-
-        <div className="mt-l grid-12 gap-y-xl">
+        <div className="grid-12 gap-y-xl">
           <Column title={copy.columns.navigation}>
             <ul className="flex flex-col gap-2xs">
               {nav.primary.map((item) => (

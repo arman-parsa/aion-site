@@ -286,6 +286,13 @@ export const PageSchema = z.object({
   eyebrow: z.string().optional(),
   title: z.string().min(1),
   intro: z.string().optional(),
+  /** Full-bleed hero (home page). */
+  hero: z
+    .object({
+      image: ImageSchema,
+      cta: z.object({ label: z.string().min(1), href: HrefSchema }),
+    })
+    .optional(),
   body: BodySchema.default([]),
   seo: SeoSchema.default({ noindex: false }),
 });

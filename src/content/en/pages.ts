@@ -6,7 +6,20 @@ import type { PagesInput } from "@/lib/content/schema";
  */
 export const pages = {
   home: {
-    title: "AION — rebuild in progress",
+    title: "AION Consultancy",
+    // DRAFT tagline: one sentence summarising the three pillars. Awaiting sign-off.
+    intro:
+      "Research, strategy and executive education for the people shaping cities and property markets.",
+    hero: {
+      image: {
+        src: "/images/home/hero-thames.jpg",
+        alt: "Aerial view along the River Thames in London, past Tower Bridge towards Canary Wharf, in evening light",
+        width: 2400,
+        height: 1600,
+        credit: "Unsplash (photo-1513635269975)",
+      },
+      cta: { label: "Explore", href: "/expertise" },
+    },
     seo: { title: "AION Consultancy" },
   },
   expertise: {
@@ -29,12 +42,11 @@ export const pages = {
   },
   people: {
     eyebrow: "People",
-    // DRAFT, from docs/voice.md ("Who's speaking"). Awaiting sign-off.
-    title: "A network, not a big firm.",
+    title: "Our team",
     intro:
-      "We're a small group of senior academics-turned-practitioners, with decades between us in universities, government rooms and on site.",
+      "A small group of senior academics-turned-practitioners, with decades of experience in universities, government rooms and on site.",
     seo: {
-      title: "People",
+      title: "Our team",
       description: "The academics and practitioners behind AION Consultancy.",
     },
   },
@@ -44,8 +56,7 @@ export const pages = {
     seo: { title: "Insights", noindex: true },
   },
   contact: {
-    eyebrow: "Contact",
-    title: "Let’s talk.",
+    title: "Contact us",
     seo: { title: "Contact", description: "Get in touch with AION Consultancy." },
   },
   // TODO(legal): both notices below are drafts written for a site that sets no

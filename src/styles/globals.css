@@ -22,6 +22,7 @@
   --accent: #b4532a; /* copper: fills, rules, focus, large type */
   --accent-ink: #ffffff; /* text on copper: 5.0:1 */
   --accent-text: #a04822; /* copper for small text on paper: 5.3:1 */
+  --on-image: #f4f2ee; /* type over photography */
 }
 
 .theme-ink {
@@ -39,7 +40,7 @@
 :root,
 .theme-paper,
 .theme-ink {
-  --rule: color-mix(in oklab, var(--ink) 15%, transparent);
+  --rule: color-mix(in oklab, var(--ink) 18%, transparent);
   background-color: var(--paper);
   color: var(--ink);
 }
@@ -55,6 +56,9 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-accent-text: var(--accent-text);
+  --color-on-image: var(--on-image);
+  /* Fixed near-black for legibility scrims over photography (theme-independent). */
+  --color-scrim: #0b0b0b;
   /* Pure white for mix-blend-difference overlays (header): renders as ink on
      paper and as near-white on dark photos. Not for ordinary text. */
   --color-blend: #ffffff;
@@ -64,9 +68,10 @@
 
 /* Fonts: emitted as real custom properties so non-utility CSS can use them. */
 @theme static {
-  /* --ff-* are set by next/font in src/styles/fonts.ts. */
-  --font-display: var(--ff-display), ui-serif, Georgia, serif;
-  --font-display-italic: var(--ff-display-italic), var(--ff-display), ui-serif, Georgia, serif;
+  /* --ff-* are set by next/font in src/styles/fonts.ts.
+     The serif is reserved for the AION wordmark; headings use the sans. */
+  --font-wordmark: var(--ff-wordmark), ui-serif, Georgia, serif;
+  --font-display: var(--ff-sans), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--ff-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--ff-mono), ui-monospace, monospace;
 }
@@ -92,22 +97,22 @@
   --text-step-2--letter-spacing: 0em;
   --text-step-3: clamp(1.728rem, 1.4162rem + 1.3858vw, 3.0792rem);
   --text-step-3--line-height: 1.1;
-  --text-step-3--letter-spacing: -0.01em;
+  --text-step-3--letter-spacing: -0.02em;
   --text-step-4: clamp(2.0736rem, 1.6049rem + 2.083vw, 4.1045rem);
   --text-step-4--line-height: 1.1;
-  --text-step-4--letter-spacing: -0.01em;
+  --text-step-4--letter-spacing: -0.02em;
   --text-step-5: clamp(2.4883rem, 1.7999rem + 3.0595vw, 5.4713rem);
   --text-step-5--line-height: 0.98;
-  --text-step-5--letter-spacing: -0.02em;
+  --text-step-5--letter-spacing: -0.035em;
   --text-step-6: clamp(2.986rem, 1.992rem + 4.4178vw, 7.2933rem);
   --text-step-6--line-height: 0.98;
-  --text-step-6--letter-spacing: -0.02em;
+  --text-step-6--letter-spacing: -0.035em;
   --text-step-7: clamp(3.5832rem, 2.1665rem + 6.2962vw, 9.722rem);
   --text-step-7--line-height: 0.92;
-  --text-step-7--letter-spacing: -0.02em;
+  --text-step-7--letter-spacing: -0.04em;
   --text-step-8: clamp(4.2998rem, 2.3015rem + 8.8816vw, 12.9594rem);
   --text-step-8--line-height: 0.92;
-  --text-step-8--letter-spacing: -0.02em;
+  --text-step-8--letter-spacing: -0.04em;
   --spacing-3xs: clamp(0.25rem, 0.2327rem + 0.0769vw, 0.325rem);
   --spacing-2xs: clamp(0.5rem, 0.4654rem + 0.1538vw, 0.65rem);
   --spacing-xs: clamp(0.75rem, 0.6981rem + 0.2308vw, 0.975rem);
@@ -212,13 +217,11 @@
     max-inline-size: var(--measure);
   }
 
-  /* Display italic: swap to the dedicated italic face (not synthesised). */
+  /* Emphasis inside headings: a quieter tone rather than italics. */
   .font-display em,
-  .font-display i,
-  em.font-display,
-  .font-display-italic {
-    font-family: var(--font-display-italic);
-    font-style: italic;
+  .font-display i {
+    font-style: normal;
+    color: var(--ink-2);
   }
 
   hr {
@@ -397,7 +400,7 @@
   & > * {
     transition: opacity var(--duration-base) var(--ease-out-expo);
   }
-  &:has(> :hover, > :has(:focus-visible)) > :not(:hover, :has(:focus-visible)) {
+  &:has(> :hover, :focus-visible) > :not(:hover, :has(:focus-visible)) {
     opacity: 0.3;
   }
 }
@@ -428,4 +431,60 @@ html.motion-ok [data-clip]:not([data-motion-ready]) {
 }
 html.motion-ok [data-reveal]:not([data-motion-ready]) {
   opacity: 0;
+}
+
+/*
+ * Monotone + halftone treatment (after the OCI reference's hover motion). The
+ * photo keeps its luminance and takes the ink hue (mix-blend-mode: color), so
+ * with black ink it reads as black and white; a fine dot screen sits on top. Inside a .group, hovering fades both layers out to reveal the
+ * natural colour (opacity only).
+ */
+@utility duotone {
+  position: relative;
+  isolation: isolate;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity var(--duration-slower) var(--ease-out-expo);
+  }
+  &::before {
+    background-color: var(--ink);
+    mix-blend-mode: color;
+  }
+  &::after {
+    background-image: radial-gradient(
+      color-mix(in oklab, var(--paper) 55%, transparent) 0.6px,
+      transparent 0.9px
+    );
+    background-size: 3px 3px;
+    mix-blend-mode: soft-light;
+  }
+  :where(.group):hover &::before,
+  :where(.group):hover &::after,
+  :where(.group):focus-visible &::before,
+  :where(.group):focus-visible &::after {
+    opacity: 0;
+  }
+}
+
+/* Hairlines that draw in from the start edge (see ScrollEffects). */
+html.motion-ok [data-draw]:not([data-motion-ready]) {
+  transform: scaleX(0);
+}
+[data-draw] {
+  transform-origin: 0 50%;
+}
+[dir="rtl"] [data-draw] {
+  transform-origin: 100% 50%;
+}
+
+/* SplitText line masks clip descenders at tight leading; give them room. */
+.split-line-mask {
+  padding-block-end: 0.14em;
+  margin-block-end: -0.14em;
 }

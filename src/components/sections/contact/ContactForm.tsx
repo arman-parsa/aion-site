@@ -137,7 +137,7 @@ export function ContactForm({ action, copy, privacyHref, turnstileSiteKey }: Pro
         {(showSummary || state.status === "success") && statusMessage}
       </p>
 
-      <div className="mt-l flex flex-col gap-l">
+      <div className="mt-l grid gap-x-l gap-y-m md:grid-cols-2">
         <div>
           <label htmlFor="name" className="label text-ink-2">
             {copy.fields.name}
@@ -223,7 +223,7 @@ export function ContactForm({ action, copy, privacyHref, turnstileSiteKey }: Pro
           {errorText("enquiryType")}
         </div>
 
-        <div>
+        <div className="md:col-span-2">
           <label htmlFor="message" className="label text-ink-2">
             {copy.fields.message}
           </label>
@@ -231,7 +231,7 @@ export function ContactForm({ action, copy, privacyHref, turnstileSiteKey }: Pro
             id="message"
             name="message"
             required
-            rows={6}
+            rows={3}
             maxLength={5000}
             defaultValue={values.message}
             aria-invalid={invalid("message")}
@@ -242,7 +242,7 @@ export function ContactForm({ action, copy, privacyHref, turnstileSiteKey }: Pro
           {errorText("message")}
         </div>
 
-        <div>
+        <div className="md:col-span-2">
           <div className="flex items-start gap-s">
             <input
               id="consent"
@@ -290,12 +290,12 @@ export function ContactForm({ action, copy, privacyHref, turnstileSiteKey }: Pro
           </>
         )}
 
-        <div>
+        <div className="md:col-span-2">
           <button
             type="submit"
             disabled={pending}
             aria-disabled={pending}
-            className="group inline-flex cursor-pointer items-center gap-2xs bg-ink px-m py-xs text-step-0 text-paper transition-colors duration-base ease-out-expo hover:bg-accent hover:text-accent-ink focus-visible:bg-accent focus-visible:text-accent-ink disabled:cursor-wait disabled:opacity-60"
+            className="group inline-flex cursor-pointer items-center gap-s border border-solid border-ink bg-ink px-l py-s label leading-none text-paper transition-colors duration-base ease-out-expo hover:bg-transparent hover:text-ink focus-visible:bg-transparent focus-visible:text-ink disabled:cursor-wait disabled:opacity-60"
           >
             <span>{pending ? copy.sending : copy.submit}</span>
             <Arrow />

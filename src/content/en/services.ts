@@ -1,5 +1,4 @@
 import type { ServiceInput } from "@/lib/content/schema";
-import { placeholderLandscape } from "./images";
 
 /**
  * The three service pillars. Titles and method lists come from the brief;
@@ -23,7 +22,13 @@ export const services = [
       { title: "Specialised study visits for senior executives" },
     ],
     relatedWork: [],
-    image: placeholderLandscape("Placeholder image for Executive Education"),
+    image: {
+      src: "/images/expertise/executive-education.jpg",
+      alt: "Colleagues working together around a long table",
+      width: 2400,
+      height: 1600,
+      credit: "Unsplash (photo-1517048676732)",
+    },
     seo: { title: "Executive Education" },
   },
   {
@@ -48,7 +53,13 @@ export const services = [
       { title: "Focus groups" },
     ],
     relatedWork: [],
-    image: placeholderLandscape("Placeholder image for Research & Market Intelligence"),
+    image: {
+      src: "/images/expertise/research-and-market-intelligence.jpg",
+      alt: "An aerial view across a dense city skyline",
+      width: 2400,
+      height: 1476,
+      credit: "Unsplash (photo-1477959858617)",
+    },
     seo: { title: "Research & Market Intelligence" },
   },
   {
@@ -65,7 +76,13 @@ export const services = [
     outcomes: ["[Outcome one]", "[Outcome two]", "[Outcome three]"],
     methods: [{ title: "Strategic planning" }, { title: "Urban regeneration evaluation" }],
     relatedWork: [],
-    image: placeholderLandscape("Placeholder image for Strategy & Regeneration"),
+    image: {
+      src: "/images/expertise/strategy-and-regeneration.jpg",
+      alt: "Hands drafting architectural plans on paper",
+      width: 2400,
+      height: 1350,
+      credit: "Unsplash (photo-1503387762)",
+    },
     seo: { title: "Strategy & Regeneration" },
   },
 ] satisfies ServiceInput[];

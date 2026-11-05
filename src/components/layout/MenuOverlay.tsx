@@ -11,15 +11,8 @@ import { useMenu } from "./MenuContext";
 import { MENU_ID } from "./MenuToggle";
 
 type Item = { label: string; href: string };
-type Detail = { label: string; value: string; href?: string };
 
-type Props = {
-  items: Item[];
-  label: string;
-  primaryHeading: string;
-  secondaryHeading: string;
-  details: Detail[];
-};
+type Props = { items: Item[]; label: string };
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 /** Regions made inert while the menu is open (header bar items opt in with this attribute). */
@@ -30,7 +23,7 @@ const INERT_SELECTOR = "#main, #site-footer, [data-inert-with-menu]";
  * line. Focus is trapped between the toggle and the menu; Esc closes and
  * returns focus to the toggle; page scroll (and Lenis) is paused.
  */
-export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, details }: Props) {
+export function MenuOverlay({ items, label }: Props) {
   const { open, setOpen, toggleRef } = useMenu();
   const scope = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -47,7 +40,6 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
       const el = scope.current;
       if (!el) return;
       const lines = el.querySelectorAll("[data-menu-line]");
-      const fades = el.querySelectorAll("[data-menu-fade]");
       const reduced = prefersReducedMotion();
 
       if (firstRender.current) {
@@ -61,7 +53,6 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
         if (reduced) {
           gsap.set(el, { clipPath: "inset(0% 0% 0% 0%)" });
           gsap.set(lines, { yPercent: 0 });
-          gsap.set(fades, { opacity: 1 });
           return;
         }
         gsap
@@ -76,8 +67,7 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
             { yPercent: 110 },
             { yPercent: 0, duration: 1, ease: EASE_OUT_EXPO, stagger: 0.06 },
             0.2,
-          )
-          .fromTo(fades, { opacity: 0 }, { opacity: 1, duration: 0.8, ease: EASE_OUT_EXPO }, 0.5);
+          );
       } else {
         if (reduced) {
           gsap.set(el, { autoAlpha: 0, clipPath: "inset(0% 0% 100% 0%)" });
@@ -101,6 +91,10 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
     if (!open) return;
     const el = scope.current;
     const toggle = toggleRef.current;
+    // The header wordmark stays usable while the menu is open (link home).
+    const home = document.querySelector<HTMLElement>("[data-menu-home]");
+    const closeOnHome = () => setOpen(false);
+    home?.addEventListener("click", closeOnHome);
     const inertTargets = Array.from(document.querySelectorAll<HTMLElement>(INERT_SELECTOR));
     inertTargets.forEach((t) => (t.inert = true));
     lockScroll(true);
@@ -114,6 +108,7 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
       }
       if (e.key !== "Tab" || !el) return;
       const focusables = [
+        ...(home ? [home] : []),
         ...(toggle ? [toggle] : []),
         ...Array.from(el.querySelectorAll<HTMLElement>(FOCUSABLE)),
       ];
@@ -136,6 +131,7 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
 
     return () => {
       document.removeEventListener("keydown", onKey);
+      home?.removeEventListener("click", closeOnHome);
       inertTargets.forEach((t) => (t.inert = false));
       lockScroll(false);
       toggle?.focus({ preventScroll: true });
@@ -152,8 +148,7 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
     >
       <nav aria-label={label} className="layout-grid min-h-full pt-header pb-xl">
         <div className="mt-l grid-12 gap-y-xl">
-          <div className="col-span-12 lg:col-span-8">
-            <h2 className="sr-only">{primaryHeading}</h2>
+          <div className="col-span-12">
             <ol className="flex flex-col dim-siblings">
               {items.map((item, i) => (
                 <li key={item.href} className="rule-b first:rule">
@@ -163,41 +158,22 @@ export function MenuOverlay({ items, label, primaryHeading, secondaryHeading, de
                     aria-current={pathname === item.href ? "page" : undefined}
                     className="group flex items-baseline gap-s overflow-hidden py-2xs"
                   >
-                    <span data-menu-line className="flex items-baseline gap-s">
+                    <span data-menu-line className="flex w-full items-baseline gap-s">
                       <span className="label text-ink-2 tabular-nums">{formatIndex(i + 1)}</span>
-                      <span className="font-display text-step-6 transition-transform duration-base ease-out-expo group-hover:translate-x-2xs group-focus-visible:translate-x-2xs rtl:group-hover:-translate-x-2xs">
+                      <span className="font-display text-step-6 transition-transform duration-slow ease-out-expo group-hover:translate-x-s group-focus-visible:translate-x-s rtl:group-hover:-translate-x-s">
                         {item.label}
+                      </span>
+                      <span
+                        aria-hidden
+                        className="ms-auto -translate-x-s text-step-4 opacity-0 transition-[opacity,transform] duration-slow ease-out-expo group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 rtl:-scale-x-100"
+                      >
+                        →
                       </span>
                     </span>
                   </NextLink>
                 </li>
               ))}
             </ol>
-          </div>
-          <div data-menu-fade className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
-            <h2 className="label text-ink-2">{secondaryHeading}</h2>
-            <dl className="mt-s flex flex-col gap-s">
-              {details.map((d) => (
-                <div key={d.label}>
-                  <dt className="label text-ink-2">{d.label}</dt>
-                  <dd className="mt-3xs text-step-0">
-                    {d.href ? (
-                      <a
-                        href={d.href}
-                        className="link-underline-rest"
-                        {...(d.href.startsWith("http")
-                          ? { target: "_blank", rel: "noopener noreferrer" }
-                          : {})}
-                      >
-                        {d.value}
-                      </a>
-                    ) : (
-                      d.value
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </div>
       </nav>

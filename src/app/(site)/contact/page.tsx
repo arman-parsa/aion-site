@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { OfficeStatus } from "@/components/layout/OfficeStatus";
+import { Reveal, SplitHeading } from "@/components/motion";
 import { ContactForm } from "@/components/sections/contact/ContactForm";
-import { Grid, Link, Section } from "@/components/ui";
+import { Container, Link } from "@/components/ui";
 import { getPage, getSiteSettings, getUiStrings } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 import { submitContact } from "./actions";
@@ -14,6 +15,10 @@ export const metadata: Metadata = buildMetadata({
   path: "/contact",
 });
 
+/**
+ * One screen, two columns split by a hairline: who to reach on the left, the
+ * form on the right. No footer (the details are all here already).
+ */
 export default function ContactPage() {
   const site = getSiteSettings();
   const ui = getUiStrings();
@@ -21,68 +26,72 @@ export default function ContactPage() {
   const office = site.offices[0];
 
   return (
-    <Section spacing="none" className="pt-page-top pb-3xl" data-hide-footer-cta>
-      <Grid rowGap="2xl" className="items-start">
-        <div className="col-span-12 lg:col-span-6">
-          {page.eyebrow && <p className="label text-ink-2">{page.eyebrow}</p>}
-          <h1 className="mt-s font-display text-step-8">{page.title}</h1>
+    <section aria-labelledby="contact-title" className="theme-paper">
+      <Container>
+        {/* Starts below the header so the dividing line never runs behind the nav. */}
+        <div className="mt-header grid min-h-[calc(100svh-var(--spacing-header))] grid-cols-1 lg:grid-cols-2">
+          <div className="flex flex-col justify-between gap-2xl pt-2xl pb-xl lg:border-e lg:border-solid lg:border-rule lg:pe-xl">
+            <SplitHeading
+              as="h1"
+              id="contact-title"
+              size={7}
+              trigger="load"
+              className="max-w-display"
+            >
+              {page.title}
+            </SplitHeading>
 
-          <h2 className="mt-2xl label text-ink-2">{c.directHeading}</h2>
-          <dl className="mt-s rule-b">
-            <div className="py-s rule">
-              <dt className="label text-ink-2">{c.email}</dt>
-              <dd className="mt-3xs text-step-2 wrap-anywhere">
-                <Link href={`mailto:${site.contact.email}`} underline="rest">
-                  {site.contact.email}
-                </Link>
-              </dd>
-            </div>
-            <div className="py-s rule">
-              <dt className="label text-ink-2">{c.phone}</dt>
-              <dd className="mt-3xs text-step-2">
+            <Reveal className="flex flex-col gap-s text-step-1">
+              {office && (
+                <address className="not-italic">
+                  {office.lines.map((l) => (
+                    <span key={l} className="block">
+                      {l}
+                    </span>
+                  ))}
+                </address>
+              )}
+              <div className="flex flex-col">
                 {site.contact.phoneHref ? (
-                  <Link href={`tel:${site.contact.phoneHref}`} underline="rest">
+                  <Link
+                    href={`tel:${site.contact.phoneHref}`}
+                    underline="rest"
+                    className="self-start"
+                  >
                     {site.contact.phone}
                   </Link>
                 ) : (
-                  site.contact.phone
+                  <span>{site.contact.phone}</span>
                 )}
-              </dd>
-            </div>
-            {office && (
-              <div className="py-s rule">
-                <dt className="label text-ink-2">{c.office}</dt>
-                <dd className="mt-3xs text-step-1">
-                  <address className="not-italic">
-                    {office.lines.map((l) => (
-                      <span key={l} className="block">
-                        {l}
-                      </span>
-                    ))}
-                  </address>
-                  <div className="mt-s">
-                    <OfficeStatus
-                      hours={site.officeHours}
-                      label={ui.footer.officeHours}
-                      open={ui.footer.open}
-                      closed={ui.footer.closed}
-                    />
-                  </div>
-                </dd>
+                <Link
+                  href={`mailto:${site.contact.email}`}
+                  underline="rest"
+                  className="mt-2xs self-start wrap-anywhere"
+                >
+                  {site.contact.email}
+                </Link>
               </div>
-            )}
-          </dl>
-        </div>
+              <div className="mt-s">
+                <OfficeStatus
+                  hours={site.officeHours}
+                  label={ui.footer.officeHours}
+                  open={ui.footer.open}
+                  closed={ui.footer.closed}
+                />
+              </div>
+            </Reveal>
+          </div>
 
-        <div className="col-span-12 lg:col-span-5 lg:col-start-8">
-          <ContactForm
-            action={submitContact}
-            copy={c}
-            privacyHref="/privacy"
-            turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-          />
+          <div className="flex flex-col justify-center pt-xl pb-xl lg:ps-xl lg:pt-2xl">
+            <ContactForm
+              action={submitContact}
+              copy={c}
+              privacyHref="/privacy"
+              turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+            />
+          </div>
         </div>
-      </Grid>
-    </Section>
+      </Container>
+    </section>
   );
 }

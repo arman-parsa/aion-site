@@ -6,13 +6,10 @@
  * CLS. Each loader sets a private `--ff-*` variable; globals.css maps those to
  * the public tokens (with fallbacks) used everywhere else:
  *
- *   --font-display         display serif, roman   (preloaded: LCP headlines)
- *   --font-display-italic  display serif, italic  (not preloaded: emphasis only)
+ *   --font-wordmark        display serif, the AION wordmark only (preloaded)
+ *   --font-display         headings: currently the sans (globals.css)
  *   --font-sans            body grotesk           (preloaded)
  *   --font-mono            labels / metadata      (not preloaded)
- *
- * The italic is a separate loader so that preloading the roman doesn't also
- * preload the italic file.
  *
  * To switch to licensed fonts (e.g. PP Editorial New / PP Neue Montreal), put
  * the .woff2 files in src/styles/fonts/ and replace a loader with next/font/local:
@@ -20,7 +17,7 @@
  *   import localFont from "next/font/local";
  *   const display = localFont({
  *     src: "./fonts/PPEditorialNew-Regular.woff2",
- *     variable: "--ff-display",
+ *     variable: "--ff-sans",
  *     display: "swap",
  *     preload: true,
  *   });
@@ -29,24 +26,17 @@
  */
 import { Geist_Mono, Instrument_Serif, Inter_Tight } from "next/font/google";
 
-const display = Instrument_Serif({
+/** The AION wordmark only (header lockup, home hero). Nothing else uses it. */
+const wordmark = Instrument_Serif({
   weight: "400",
   style: "normal",
   subsets: ["latin"],
   display: "swap",
   preload: true,
-  variable: "--ff-display",
+  variable: "--ff-wordmark",
 });
 
-const displayItalic = Instrument_Serif({
-  weight: "400",
-  style: "italic",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  variable: "--ff-display-italic",
-});
-
+/** Headings and body. */
 const sans = Inter_Tight({
   subsets: ["latin"],
   display: "swap",
@@ -62,4 +52,4 @@ const mono = Geist_Mono({
 });
 
 /** Apply to <html> so the variables are available everywhere. */
-export const fontVariables = [display, displayItalic, sans, mono].map((f) => f.variable).join(" ");
+export const fontVariables = [wordmark, sans, mono].map((f) => f.variable).join(" ");
