@@ -12,11 +12,11 @@ export const pages = {
       "Research, strategy and executive education for the people shaping cities and property markets.",
     hero: {
       image: {
-        src: "/images/home/hero-timber-house.jpg",
-        alt: "A modern timber and glass house lit at dusk beneath a large gum tree, with a lawn in front",
+        src: "/images/home/hero-thames.jpg",
+        alt: "Aerial view along the River Thames in London, past Tower Bridge towards Canary Wharf, in evening light",
         width: 2400,
         height: 1600,
-        credit: "Unsplash (photo-1600585154340)",
+        credit: "Unsplash (photo-1513635269975)",
       },
       cta: { label: "Explore", href: "/expertise" },
     },
