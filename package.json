@@ -17,7 +17,7 @@
     "screenshot": "node scripts/screenshot.ts",
     "prepare": "husky",
     "tokens": "node scripts/tokens.ts",
-    "content:todo": "CONTENT_TODO=1 vitest run src/lib/content/content.test.ts -t content:todo"
+    "content:todo": "CONTENT_TODO=1 vitest run src/lib/content/content.test.ts -t content:todo --silent=false"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
