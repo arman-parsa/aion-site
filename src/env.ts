@@ -18,6 +18,10 @@ export const serverSchema = z.object({
   RESEND_API_KEY: z.string().min(1),
   TURNSTILE_SECRET_KEY: z.string().min(1),
   CONTACT_TO_EMAIL: z.email(),
+  /** Sender for contact emails. Needs a domain verified in Resend. */
+  CONTACT_FROM_EMAIL: z.string().min(3).default("AION Consultancy <onboarding@resend.dev>"),
+  /** "1" = log emails and skip Turnstile (local/e2e only; ignored on production). */
+  CONTACT_TEST_MODE: z.enum(["0", "1"]).default("0"),
 });
 
 export const clientSchema = z.object({
@@ -29,7 +33,7 @@ export type ServerEnv = z.infer<typeof serverSchema>;
 export type ClientEnv = z.infer<typeof clientSchema>;
 export type Env = ServerEnv & ClientEnv;
 
-type RawEnv = Record<keyof Env, string | undefined>;
+type RawEnv = Record<keyof z.input<typeof serverSchema> | keyof ClientEnv, string | undefined>;
 
 const isServer = typeof window === "undefined";
 
@@ -38,6 +42,8 @@ function readRaw(): RawEnv {
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
     CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
+    CONTACT_FROM_EMAIL: process.env.CONTACT_FROM_EMAIL,
+    CONTACT_TEST_MODE: process.env.CONTACT_TEST_MODE,
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   };

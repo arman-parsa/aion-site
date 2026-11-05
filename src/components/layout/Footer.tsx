@@ -20,7 +20,11 @@ export function Footer() {
   return (
     <footer id="site-footer" className="theme-ink pt-3xl pb-m">
       <Container>
-        <Link href={copy.ctaHref} underline="none" className="group block font-display text-step-8">
+        <Link
+          href={copy.ctaHref}
+          underline="none"
+          className="group block font-display text-step-8 [body:has([data-hide-footer-cta])_&]:hidden"
+        >
           <span className="link-underline">{copy.cta}</span>{" "}
           <Arrow className="align-baseline text-step-5" />
         </Link>

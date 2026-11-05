@@ -33,6 +33,8 @@ export default defineConfig({
         command: `pnpm start --port ${PORT}`,
         url: baseURL,
         reuseExistingServer: !process.env.CI,
+        // Contact form: log emails instead of sending, skip Turnstile.
+        env: { ...(process.env as Record<string, string>), CONTACT_TEST_MODE: "1" },
         timeout: 120_000,
       },
 });

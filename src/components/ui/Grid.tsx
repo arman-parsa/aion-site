@@ -7,6 +7,7 @@ const rowGaps = {
   m: "gap-y-m",
   l: "gap-y-l",
   xl: "gap-y-xl",
+  "2xl": "gap-y-2xl",
 } as const;
 
 type GridProps<T extends ElementType> = {
