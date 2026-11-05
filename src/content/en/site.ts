@@ -19,7 +19,9 @@ export const site = {
     showInsights: false,
   },
   contact: {
-    email: "[email@aionconsults.com]",
+    // TODO(launch): the domain has no MX records yet, so this inbox receives
+    // nothing until the email provider's records are restored in DNS.
+    email: "aliparsa@aionconsults.com",
     phone: "[+44 phone]",
     phoneHref: "",
     linkedin: "",
