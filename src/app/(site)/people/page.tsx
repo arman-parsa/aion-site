@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { IndexList, PageIntro } from "@/components/sections";
-import { Section } from "@/components/ui";
-import { displayName, getPage, getPeople } from "@/lib/content";
+import { SplitHeading } from "@/components/motion";
+import { PeopleIndex } from "@/components/sections/people";
+import { Eyebrow, Section, Text } from "@/components/ui";
+import { displayName, getPage, getPeople, getUiStrings } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 const page = getPage("people");
@@ -13,18 +14,37 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function PeoplePage() {
-  const people = getPeople();
+  const ui = getUiStrings().people;
+  const people = getPeople().map((p) => ({
+    href: `/people/${p.slug}`,
+    name: displayName(p),
+    honorifics: p.honorifics.join(", "),
+    role: p.role,
+    portrait: {
+      src: p.portrait.src,
+      alt: p.portrait.alt,
+      width: p.portrait.width,
+      height: p.portrait.height,
+    },
+  }));
+
   return (
     <>
-      <PageIntro eyebrow={page.eyebrow} title={page.title} intro={page.intro} />
+      <Section spacing="none" className="pt-page-top pb-2xl">
+        {page.eyebrow && <Eyebrow>{page.eyebrow}</Eyebrow>}
+        <SplitHeading as="h1" size={7} trigger="load" className="mt-s max-w-display">
+          {page.title}
+        </SplitHeading>
+        {page.intro && (
+          <Text size={3} tone="ink-2" className="mt-m font-display">
+            {page.intro}
+          </Text>
+        )}
+      </Section>
       <Section spacing="none" className="pb-3xl">
-        <IndexList
-          label={page.eyebrow}
-          items={people.map((p) => ({
-            href: `/people/${p.slug}`,
-            title: displayName(p),
-            meta: [p.honorifics.join(" "), p.role].filter(Boolean).join(" · "),
-          }))}
+        <PeopleIndex
+          people={people}
+          labels={{ view: ui.viewLabel, list: ui.list, grid: ui.grid, listLabel: ui.listLabel }}
         />
       </Section>
     </>

@@ -214,29 +214,41 @@ export const CaseStudySchema = z.object({
 });
 export type CaseStudy = z.infer<typeof CaseStudySchema>;
 
-export const PersonSchema = z.object({
-  slug: SlugSchema,
-  /** e.g. "Prof." Kept separate so JSON-LD can use honorificPrefix. */
-  prefix: z.string().optional(),
-  name: z.string().min(1),
-  /** Post-nominals, e.g. ["FRICS"], ["CBE"]. */
-  honorifics: z.array(z.string().min(1)).default([]),
-  role: z.string().min(1),
-  shortBio: z.string().min(1),
-  longBio: BodySchema,
-  credentials: z.array(z.string().min(1)).default([]),
-  affiliations: z
-    .array(
-      z.object({ name: z.string().min(1), role: z.string().optional(), url: z.url().optional() }),
-    )
-    .default([]),
-  /** Institutions for Person JSON-LD alumniOf. */
-  alumniOf: z.array(z.string().min(1)).default([]),
-  portrait: ImageSchema,
-  order: z.number().int(),
-  featured: z.boolean().default(false),
-  seo: SeoSchema.default({ noindex: false }),
-});
+export const PersonSchema = z
+  .object({
+    slug: SlugSchema,
+    /** e.g. "Prof." Kept separate so JSON-LD can use honorificPrefix. */
+    prefix: z.string().optional(),
+    name: z.string().min(1),
+    /** Post-nominals, e.g. ["FRICS"], ["CBE"]. */
+    honorifics: z.array(z.string().min(1)).default([]),
+    role: z.string().min(1),
+    shortBio: z.string().min(1),
+    longBio: BodySchema,
+    credentials: z.array(z.string().min(1)).default([]),
+    affiliations: z
+      .array(
+        z.object({ name: z.string().min(1), role: z.string().optional(), url: z.url().optional() }),
+      )
+      .default([]),
+    /** Institutions for Person JSON-LD alumniOf. */
+    alumniOf: z.array(z.string().min(1)).default([]),
+    portrait: ImageSchema,
+    order: z.number().int(),
+    featured: z.boolean().default(false),
+    seo: SeoSchema.default({ noindex: false }),
+  })
+  .superRefine((p, ctx) => {
+    // The old site repeated bios; the short bio must not reappear in the long one.
+    p.longBio.forEach((b, i) => {
+      if (b.type === "paragraph" && b.text.trim() === p.shortBio.trim())
+        ctx.addIssue({
+          code: "custom",
+          path: ["longBio", i],
+          message: "repeats shortBio; don't duplicate bio text",
+        });
+    });
+  });
 export type Person = z.infer<typeof PersonSchema>;
 
 export const InsightSchema = z.object({

@@ -28,6 +28,14 @@ describe("content", () => {
     }
   });
 
+  it("rejects duplicated bio text", () => {
+    const broken = structuredClone(en) as unknown as {
+      people: { shortBio: string; longBio: { type: string; text: string }[] }[];
+    };
+    broken.people[0]!.longBio = [{ type: "paragraph", text: broken.people[0]!.shortBio }];
+    expect(() => parseLocale("en", broken)).toThrow(/people\[0\]\.longBio\[0\]: repeats shortBio/);
+  });
+
   it("hides flagged nav items", () => {
     const labels = getNavigation().primary.map((i) => i.label);
     expect(labels).not.toContain("Work");

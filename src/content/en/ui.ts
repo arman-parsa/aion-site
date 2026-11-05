@@ -34,6 +34,15 @@ export const ui = {
   notFound: { home: "Home", links: "Try one of these" },
   error: { retry: "Try again", home: "Back to the home page" },
   listing: { readMore: "Read more", placeholderBadge: "Placeholder" },
+  people: {
+    viewLabel: "View",
+    list: "List",
+    grid: "Grid",
+    listLabel: "People",
+    credentials: "Credentials",
+    affiliations: "Affiliations",
+    back: "All people",
+  },
   expertise: {
     pillarsLabel: "Our three pillars",
     methods: "Methods",

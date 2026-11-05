@@ -29,9 +29,14 @@ export const pages = {
   },
   people: {
     eyebrow: "People",
-    title: "[People page headline]",
-    intro: "[Introduction to the collective: an academic-practitioner network, not a big firm]",
-    seo: { title: "People", description: "The people behind AION Consultancy." },
+    // DRAFT, from docs/voice.md ("Who's speaking"). Awaiting sign-off.
+    title: "A network, not a big firm.",
+    intro:
+      "We're a small group of senior academics-turned-practitioners, with decades between us in universities, government rooms and on site.",
+    seo: {
+      title: "People",
+      description: "The academics and practitioners behind AION Consultancy.",
+    },
   },
   insights: {
     eyebrow: "Insights",
