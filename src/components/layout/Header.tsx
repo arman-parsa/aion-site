@@ -1,6 +1,6 @@
 import { Container } from "@/components/ui";
 import { Link } from "@/components/ui/Link";
-import { getLayoutCopy } from "@/lib/content";
+import { getUiStrings } from "@/lib/content";
 import { HeaderShell } from "./HeaderShell";
 import { LondonClock } from "./LondonClock";
 import { MenuToggle } from "./MenuToggle";
@@ -11,7 +11,7 @@ import { Wordmark } from "./Wordmark";
  * reads as ink over paper and as near-white over photography or ink sections.
  */
 export function Header() {
-  const copy = getLayoutCopy().header;
+  const copy = getUiStrings().header;
   return (
     <HeaderShell>
       <Container>

@@ -1,1 +1,1 @@
-export {};
+export { buildMetadata } from "./metadata";

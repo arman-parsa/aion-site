@@ -1,10 +1,10 @@
 import NextLink from "next/link";
-import { getLayoutCopy, getSiteSettings } from "@/lib/content";
+import { getUiStrings, getSiteSettings } from "@/lib/content";
 
 /** Text wordmark: "AION" in the display serif with a small mono lockup. */
 export function Wordmark({ className }: { className?: string }) {
   const site = getSiteSettings();
-  const copy = getLayoutCopy();
+  const copy = getUiStrings();
   return (
     <NextLink
       href="/"

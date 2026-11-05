@@ -1,9 +1,9 @@
-import { getLayoutCopy, getNavigation, getSiteSettings } from "@/lib/content";
+import { getUiStrings, getNavigation, getSiteSettings } from "@/lib/content";
 import { MenuOverlay } from "./MenuOverlay";
 
 /** Server wrapper: reads content and hands plain props to the client overlay. */
 export function Menu() {
-  const copy = getLayoutCopy().menu;
+  const copy = getUiStrings().menu;
   const site = getSiteSettings();
   const nav = getNavigation();
   const office = site.offices[0];

@@ -1,8 +1,8 @@
-import { getLayoutCopy } from "@/lib/content";
+import { getUiStrings } from "@/lib/content";
 
 /** First focusable element on every page. */
 export function SkipLink() {
-  const copy = getLayoutCopy();
+  const copy = getUiStrings();
   return (
     <a
       href="#main"

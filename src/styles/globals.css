@@ -121,6 +121,8 @@
   --spacing-gutter: clamp(1.25rem, 0.8462rem + 1.7949vw, 3rem);
   /* Height of the fixed header bar (padding + wordmark line). */
   --spacing-header: calc(var(--spacing-s) * 2 + var(--text-step-2));
+  /* Top padding for a page's opening section (clears the fixed header). */
+  --spacing-page-top: calc(var(--spacing-header) + var(--spacing-3xl));
   --spacing-grid-gap: clamp(0.75rem, 0.4615rem + 1.2821vw, 2rem);
 
   --measure: 65ch;

@@ -1,37 +1,111 @@
-import { home } from "@/content/en/home";
-import { navigation, type NavItem } from "@/content/en/navigation";
-import { layoutCopy, site } from "@/content/en/site";
-import { styleguide } from "@/content/en/styleguide";
-import { ui } from "@/content/en/ui";
+/**
+ * Content getters: the ONLY way pages and components read content.
+ * Every getter takes a locale (default "en") so Arabic can slot in later.
+ */
+import { contentFor, styleguide, ui } from "./load";
+import type { CaseStudy, Insight, Locale, Page, PageKey, Person, Service } from "./schema";
 
-export type Locale = "en";
-export type { NavItem };
+export type * from "./schema";
 
-export function getHome() {
-  return home;
+const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
+
+/* ---- site ---- */
+
+export function getSiteSettings(locale: Locale = "en") {
+  return contentFor(locale).site;
 }
 
-export function getUiStrings() {
+export function isFeatureOn(flag: "showWork" | "showInsights", locale: Locale = "en"): boolean {
+  return contentFor(locale).site.flags[flag] ?? false;
+}
+
+/** Navigation with feature-flagged items removed. */
+export function getNavigation(locale: Locale = "en") {
+  const { navigation, site } = contentFor(locale);
+  const on = (item: { flag?: "showWork" | "showInsights" }) => !item.flag || site.flags[item.flag];
+  return { primary: navigation.primary.filter(on), legal: navigation.legal.filter(on) };
+}
+
+export function getPage(key: PageKey, locale: Locale = "en"): Page {
+  const page = contentFor(locale).pages[key];
+  if (!page) throw new Error(`Missing page content "${key}"`);
+  return page;
+}
+
+/* ---- services ---- */
+
+export function getServices(locale: Locale = "en"): Service[] {
+  return [...contentFor(locale).services].sort(byOrder);
+}
+
+export function getService(slug: string, locale: Locale = "en"): Service | undefined {
+  return contentFor(locale).services.find((s) => s.slug === slug);
+}
+
+/** The service after this one, wrapping to the first. */
+export function getNextService(slug: string, locale: Locale = "en"): Service | undefined {
+  const list = getServices(locale);
+  const i = list.findIndex((s) => s.slug === slug);
+  return i === -1 ? undefined : list[(i + 1) % list.length];
+}
+
+/* ---- case studies ---- */
+
+/** Case studies. Placeholders are excluded unless `includePlaceholders` is set. */
+export function getCaseStudies(
+  { includePlaceholders = false }: { includePlaceholders?: boolean } = {},
+  locale: Locale = "en",
+): CaseStudy[] {
+  return contentFor(locale).caseStudies.filter((c) => includePlaceholders || !c.placeholder);
+}
+
+export function getCaseStudy(slug: string, locale: Locale = "en"): CaseStudy | undefined {
+  return contentFor(locale).caseStudies.find((c) => c.slug === slug);
+}
+
+export function getCaseStudiesForService(serviceSlug: string, locale: Locale = "en"): CaseStudy[] {
+  const service = getService(serviceSlug, locale);
+  const related = new Set(service?.relatedWork ?? []);
+  return getCaseStudies({}, locale).filter(
+    (c) => related.has(c.slug) || c.services.includes(serviceSlug),
+  );
+}
+
+/* ---- people ---- */
+
+export function getPeople(locale: Locale = "en"): Person[] {
+  return [...contentFor(locale).people].sort(byOrder);
+}
+
+export function getPerson(slug: string, locale: Locale = "en"): Person | undefined {
+  return contentFor(locale).people.find((p) => p.slug === slug);
+}
+
+/** "Prof. Ali Parsa" */
+export function displayName(person: Pick<Person, "prefix" | "name">): string {
+  return [person.prefix, person.name].filter(Boolean).join(" ");
+}
+
+/* ---- insights & testimonials ---- */
+
+export function getInsights(locale: Locale = "en"): Insight[] {
+  return [...contentFor(locale).insights].sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export function getInsight(slug: string, locale: Locale = "en"): Insight | undefined {
+  return contentFor(locale).insights.find((i) => i.slug === slug);
+}
+
+export function getTestimonials(locale: Locale = "en") {
+  return contentFor(locale).testimonials.filter((t) => t.approved && t.language === locale);
+}
+
+/* ---- UI strings ---- */
+
+export function getUiStrings(_locale: Locale = "en") {
   return ui;
 }
 
 export function getStyleguide() {
   return styleguide;
-}
-
-export function getSiteSettings(_locale: Locale = "en") {
-  return site;
-}
-
-export function getLayoutCopy(_locale: Locale = "en") {
-  return layoutCopy;
-}
-
-/** Navigation with feature-flagged items removed. */
-export function getNavigation(_locale: Locale = "en") {
-  const isOn = (item: NavItem) => !item.flag || site.flags[item.flag];
-  return {
-    primary: navigation.primary.filter(isOn),
-    legal: navigation.legal.filter(isOn),
-  };
 }

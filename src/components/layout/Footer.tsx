@@ -1,5 +1,5 @@
 import { Arrow, Container, Link, Rule } from "@/components/ui";
-import { getLayoutCopy, getNavigation, getSiteSettings } from "@/lib/content";
+import { getUiStrings, getNavigation, getSiteSettings } from "@/lib/content";
 import { CopyrightYear } from "./CopyrightYear";
 import { OfficeStatus } from "./OfficeStatus";
 
@@ -13,7 +13,7 @@ function Column({ title, children }: { title: string; children: React.ReactNode 
 }
 
 export function Footer() {
-  const copy = getLayoutCopy().footer;
+  const copy = getUiStrings().footer;
   const site = getSiteSettings();
   const nav = getNavigation();
 

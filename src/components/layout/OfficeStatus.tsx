@@ -13,7 +13,7 @@ export function OfficeStatus({ hours, label, open, closed }: Props) {
     <p className="inline-flex items-center gap-2xs label">
       <span
         aria-hidden
-        className={`inline-block size-2xs rounded-full ${isOpenNow ? "bg-accent" : "bg-stone"}`}
+        className={`inline-block size-2xs shrink-0 rounded-full ${isOpenNow ? "bg-accent" : "bg-stone"}`}
       />
       {label} — {isOpenNow ? open : closed}
     </p>
