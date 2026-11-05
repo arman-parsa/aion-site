@@ -19,9 +19,9 @@ export const site = {
     showInsights: false,
   },
   contact: {
-    // TODO(launch): the domain has no MX records yet, so this inbox receives
-    // nothing until the email provider's records are restored in DNS.
-    email: "aliparsa@aionconsults.com",
+    // TEMPORARY: personal inbox until an @aionconsults.com mailbox is set up
+    // (the domain currently has no MX records). Switch to aliparsa@aionconsults.com.
+    email: "argp2018@outlook.com",
     phone: "[+44 phone]",
     phoneHref: "",
     linkedin: "",
