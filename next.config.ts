@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 // Validate env vars at build/dev start. Throws on missing or invalid values.
 import "./src/env";
+import { legacyRedirects } from "./src/lib/seo/redirects";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -58,6 +59,9 @@ const nextConfig: NextConfig = {
         as: "*.css",
       },
     },
+  },
+  async redirects() {
+    return legacyRedirects.map((r) => ({ ...r, permanent: true }));
   },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];

@@ -1,16 +1,24 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { getSiteSettings } from "@/lib/content";
+import { siteUrl } from "@/lib/seo/site-url";
 import { fontVariables } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 const site = getSiteSettings();
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? site.url),
+  metadataBase: new URL(siteUrl()),
   title: { template: site.seo.titleTemplate, default: site.seo.defaultTitle },
   description: site.seo.description,
+  applicationName: site.name,
+  openGraph: { type: "website", siteName: site.name, locale: "en_GB" },
+  twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F2EFE9", // --paper
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

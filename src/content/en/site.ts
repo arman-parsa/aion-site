@@ -28,6 +28,10 @@ export const site = {
   },
   offices: [{ name: "London", lines: ["[Office address line 1]", "[City, postcode]"] }],
   company: { number: "[placeholder]", registeredOffice: "[registered office address]" },
+  // TODO(content): confirm who founded the firm (e.g. ["ali-parsa"]); used in JSON-LD.
+  founders: [],
+  // TODO(content): countries/regions served (e.g. "United Kingdom", "Gulf states").
+  areaServed: [],
   // TODO(content): confirm office hours.
   officeHours: { days: [1, 2, 3, 4, 5], open: "09:00", close: "17:30", timeZone: "Europe/London" },
   seo: {

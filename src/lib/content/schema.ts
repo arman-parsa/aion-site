@@ -152,6 +152,10 @@ export const SiteSettingsSchema = z.object({
     .array(z.object({ name: z.string().min(1), lines: z.array(z.string().min(1)).min(1) }))
     .min(1),
   company: z.object({ number: z.string().min(1), registeredOffice: z.string().min(1) }),
+  /** Person slugs, for Organization JSON-LD `founder`. */
+  founders: z.array(SlugSchema).default([]),
+  /** Countries/regions served, for JSON-LD `areaServed`. */
+  areaServed: z.array(z.string().min(1)).default([]),
   officeHours: z.object({
     days: z.array(z.number().int().min(0).max(6)).min(1),
     open: TimeSchema,
@@ -351,6 +355,9 @@ export const LocaleContentSchema = z
           `unknown testimonial "${w.testimonial}"`,
         );
     });
+    c.site.founders.forEach((slug, j) =>
+      check(people.has(slug), ["site", "founders", j], `unknown person "${slug}"`),
+    );
     c.insights.forEach((n, i) =>
       n.authors.forEach((slug, j) =>
         check(people.has(slug), ["insights", i, "authors", j], `unknown person "${slug}"`),

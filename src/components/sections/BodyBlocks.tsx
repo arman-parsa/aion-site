@@ -8,7 +8,11 @@ function BlockView({ block }: { block: Block }) {
       return <Text>{block.text}</Text>;
     case "heading":
       return (
-        <Heading as={block.level === 2 ? "h2" : "h3"} size={block.level === 2 ? 4 : 3}>
+        <Heading
+          as={block.level === 2 ? "h2" : "h3"}
+          size={block.level === 2 ? 4 : 3}
+          className="pt-m first:pt-0"
+        >
           {block.text}
         </Heading>
       );
