@@ -46,9 +46,7 @@ export function PillarBlock({ service, index, labels }: Props) {
           >
             <Eyebrow index={index + 1}>{service.kicker}</Eyebrow>
             <Heading as="h2" size={5} id={headingId} className="mt-s">
-              <NextLink href={href} className="link-underline">
-                {service.title}
-              </NextLink>
+              <NextLink href={href}>{service.title}</NextLink>
             </Heading>
             <Text size={1} tone="ink-2" className="mt-m">
               {service.summary}

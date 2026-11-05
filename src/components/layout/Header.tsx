@@ -23,7 +23,8 @@ export function Header() {
             <div data-inert-with-menu className="hidden items-center sm:flex">
               <Link
                 href={copy.getInTouchHref}
-                className="inline-flex items-center py-2xs label leading-none"
+                underline="none"
+                className="inline-flex items-center border border-solid border-current px-s py-xs label leading-none transition-colors duration-base ease-out-expo hover:bg-current/10 focus-visible:bg-current/10"
               >
                 {copy.getInTouch}
               </Link>
