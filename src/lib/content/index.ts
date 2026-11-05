@@ -9,6 +9,17 @@ export type * from "./schema";
 
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
 
+/* ---- preview ---- */
+
+/**
+ * Content preview: set CONTENT_PREVIEW=1 (e.g. on Vercel *Preview* deployments
+ * only) to review feature-flagged sections and placeholder entries. Ignored
+ * on production deployments.
+ */
+export function isContentPreview(): boolean {
+  return process.env.CONTENT_PREVIEW === "1" && process.env.VERCEL_ENV !== "production";
+}
+
 /* ---- site ---- */
 
 export function getSiteSettings(locale: Locale = "en") {
@@ -16,13 +27,14 @@ export function getSiteSettings(locale: Locale = "en") {
 }
 
 export function isFeatureOn(flag: "showWork" | "showInsights", locale: Locale = "en"): boolean {
-  return contentFor(locale).site.flags[flag] ?? false;
+  return (contentFor(locale).site.flags[flag] ?? false) || isContentPreview();
 }
 
 /** Navigation with feature-flagged items removed. */
 export function getNavigation(locale: Locale = "en") {
-  const { navigation, site } = contentFor(locale);
-  const on = (item: { flag?: "showWork" | "showInsights" }) => !item.flag || site.flags[item.flag];
+  const { navigation } = contentFor(locale);
+  const on = (item: { flag?: "showWork" | "showInsights" }) =>
+    !item.flag || isFeatureOn(item.flag, locale);
   return { primary: navigation.primary.filter(on), legal: navigation.legal.filter(on) };
 }
 
@@ -56,7 +68,29 @@ export function getCaseStudies(
   { includePlaceholders = false }: { includePlaceholders?: boolean } = {},
   locale: Locale = "en",
 ): CaseStudy[] {
-  return contentFor(locale).caseStudies.filter((c) => includePlaceholders || !c.placeholder);
+  return contentFor(locale).caseStudies.filter(
+    (c) => includePlaceholders || isContentPreview() || !c.placeholder,
+  );
+}
+
+/** Case studies tagged with a service, or all when no service is given. */
+export function getCaseStudiesByService(
+  service: string | undefined,
+  locale: Locale = "en",
+): CaseStudy[] {
+  const all = getCaseStudies({}, locale);
+  return service ? all.filter((c) => c.services.includes(service)) : all;
+}
+
+/** The project after this one in the listing, wrapping around. */
+export function getNextCaseStudy(slug: string, locale: Locale = "en"): CaseStudy | undefined {
+  const list = getCaseStudies({}, locale);
+  const i = list.findIndex((c) => c.slug === slug);
+  return i === -1 || list.length < 2 ? undefined : list[(i + 1) % list.length];
+}
+
+export function getTestimonial(id: string, locale: Locale = "en") {
+  return contentFor(locale).testimonials.find((t) => t.id === id && t.approved);
 }
 
 export function getCaseStudy(slug: string, locale: Locale = "en"): CaseStudy | undefined {
