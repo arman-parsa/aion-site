@@ -41,27 +41,32 @@ export default function HomePage() {
             />
           </HeroMedia>
         )}
-        {/* Legibility scrim behind the type (functional, not decorative). */}
+        {/* Legibility scrim behind the type block (functional, not decorative). */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-linear-to-t from-paper/70 via-paper/10 to-paper/30"
+          className="absolute inset-0 bg-linear-to-r from-scrim/60 via-scrim/25 to-transparent"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-1/3 bg-linear-to-b from-scrim/40 to-transparent"
         />
 
-        <Container className="relative self-end pb-2xl text-on-image">
-          <h1 id="home-title" className="flex flex-wrap items-baseline gap-x-s leading-[0.9]">
-            <span className="font-wordmark text-step-8">{site.wordmark}</span>
-            <span className="font-sans text-step-5 font-light tracking-tight">{site.lockup}</span>
-          </h1>
-          <Reveal className="mt-m flex flex-col items-start gap-l">
-            {page.intro && (
-              <p className="max-w-[40ch] text-step-1 text-on-image/90">{page.intro}</p>
-            )}
-            {hero && (
-              <Button href={hero.cta.href} variant="onImage" arrow>
-                {hero.cta.label}
-              </Button>
-            )}
-          </Reveal>
+        {/* One left-aligned block, centred vertically: title, tagline, link. */}
+        <Container className="relative self-center pt-header text-on-image">
+          <div className="flex max-w-measure flex-col items-start">
+            <h1 id="home-title" className="flex items-baseline gap-s leading-none">
+              <span className="font-wordmark text-step-8 leading-none">{site.wordmark}</span>
+              <span className="font-mono text-step-1 tracking-label uppercase">{site.lockup}</span>
+            </h1>
+            <Reveal className="mt-l flex flex-col items-start gap-l">
+              {page.intro && <p className="text-step-1 text-on-image/90">{page.intro}</p>}
+              {hero && (
+                <Button href={hero.cta.href} variant="onImage" arrow>
+                  {hero.cta.label}
+                </Button>
+              )}
+            </Reveal>
+          </div>
         </Container>
       </section>
     </>

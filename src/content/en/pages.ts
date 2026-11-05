@@ -11,12 +11,11 @@ export const pages = {
     intro:
       "Research, strategy and executive education for the people shaping cities and property markets.",
     hero: {
-      // TODO(content): swap for the chosen Unsplash photograph (see docs/launch-checklist.md).
       image: {
-        src: "/images/home/hero.jpg",
-        alt: "A sculptural modern building against a pale sky",
-        width: 2400,
-        height: 1600,
+        src: "/images/home/hero-copper-wave.jpg",
+        alt: "A sweeping copper-clad building curving down to a reflecting pool at dusk",
+        width: 1500,
+        height: 1001,
         credit: "Unsplash",
       },
       cta: { label: "Explore", href: "/expertise" },

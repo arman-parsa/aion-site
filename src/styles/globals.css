@@ -14,36 +14,33 @@
 
 :root,
 .theme-paper {
-  /* Palette after the OCI reference: one deep ultramarine for type and lines
-     on warm "mercury" paper. Copper stays as a small accent (focus, status),
-     echoing the hero photograph. */
-  --paper: #e8e6e0;
-  --paper-2: #dedbd3;
-  --ink: #1925aa; /* 8.9:1 on paper */
-  --ink-2: #4c53b3; /* 5.3:1 on paper */
-  --stone: #8a8cb0; /* decorative only: 2.6:1 */
-  --accent: #b4532a; /* copper: focus ring, status dot, non-text */
-  --accent-ink: #ffffff;
-  --accent-text: #a04822; /* copper text on paper: 4.9:1 */
+  --paper: #f2efe9;
+  --paper-2: #e8e3da;
+  --ink: #141414;
+  --ink-2: #3a3a38;
+  --stone: #8c877e; /* decorative / large text only: 3.1:1 on paper */
+  --accent: #b4532a; /* copper: fills, rules, focus, large type */
+  --accent-ink: #ffffff; /* text on copper: 5.0:1 */
+  --accent-text: #a04822; /* copper for small text on paper: 5.3:1 */
   --on-image: #f4f2ee; /* type over photography */
 }
 
 .theme-ink {
-  --paper: #0d1355; /* deep navy */
-  --paper-2: #151c6a;
-  --ink: #e8e6e0; /* 13.6:1 */
-  --ink-2: #b9bcdf; /* 9.1:1 */
-  --stone: #7c80b8; /* 4.5:1 */
+  --paper: #141414;
+  --paper-2: #1f1f1e;
+  --ink: #f2efe9;
+  --ink-2: #c9c4ba;
+  --stone: #8c877e; /* 5.2:1 on ink */
   --accent: #b4532a;
   --accent-ink: #ffffff;
-  --accent-text: #e08a62; /* 6.4:1 */
+  --accent-text: #d4774e; /* 5.7:1 on ink */
 }
 
 /* Derived roles must be re-declared wherever the base roles change. */
 :root,
 .theme-paper,
 .theme-ink {
-  --rule: color-mix(in oklab, var(--ink) 35%, transparent);
+  --rule: color-mix(in oklab, var(--ink) 18%, transparent);
   background-color: var(--paper);
   color: var(--ink);
 }
@@ -60,6 +57,8 @@
   --color-accent-ink: var(--accent-ink);
   --color-accent-text: var(--accent-text);
   --color-on-image: var(--on-image);
+  /* Fixed near-black for legibility scrims over photography (theme-independent). */
+  --color-scrim: #0b0b0b;
   /* Pure white for mix-blend-difference overlays (header): renders as ink on
      paper and as near-white on dark photos. Not for ordinary text. */
   --color-blend: #ffffff;
@@ -440,9 +439,9 @@ body:has([data-hide-footer]) #site-footer {
 }
 
 /*
- * Duotone + halftone treatment (after the OCI reference). The photo keeps its
- * luminance and takes the ink hue (mix-blend-mode: color); a fine dot screen
- * sits on top. Inside a .group, hovering fades both layers out to reveal the
+ * Monotone + halftone treatment (after the OCI reference's hover motion). The
+ * photo keeps its luminance and takes the ink hue (mix-blend-mode: color), so
+ * with black ink it reads as black and white; a fine dot screen sits on top. Inside a .group, hovering fades both layers out to reveal the
  * natural colour (opacity only).
  */
 @utility duotone {
