@@ -22,7 +22,7 @@ test.describe("persistent layout", () => {
   });
 
   test("keyboard-only menu walkthrough: open, trap, Esc", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/expertise");
     const btn = toggle(page);
     await expect(btn).toHaveAttribute("aria-expanded", "false");
     await expect(btn).toHaveAttribute("aria-controls", "site-menu");
@@ -81,6 +81,17 @@ test.describe("persistent layout", () => {
     await expect(footer.getByRole("link", { name: "Privacy" })).toBeVisible();
     await expect(footer.getByRole("link", { name: /Back to top/ })).toHaveAttribute("href", "#top");
     await expect(footer).toContainText(`© AION Consultancy Ltd ${new Date().getFullYear()}`);
+  });
+
+  test("header is dark on paper pages after leaving the photo hero", async ({ page }) => {
+    await page.goto("/");
+    const header = page.locator("header");
+    const lightOnHome = await header.evaluate((h) => getComputedStyle(h).color);
+    await page.getByRole("link", { name: /Explore/ }).click();
+    await page.waitForURL("**/expertise");
+    await expect(header).not.toHaveCSS("color", lightOnHome);
+    await expect(header).toHaveCSS("color", "rgb(20, 20, 20)");
+    await expect(page.locator("#site-footer")).toBeVisible();
   });
 
   test("one h1 per page", async ({ page }) => {

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { ScrollEffects, SmoothScroll } from "@/components/motion";
 import { Footer } from "./Footer";
+import { FooterGate } from "./FooterGate";
 import { Header } from "./Header";
 import { Menu } from "./Menu";
 import { MenuProvider } from "./MenuContext";
@@ -21,7 +22,9 @@ export function SiteChrome({ children }: { children: ReactNode }) {
           {children}
         </main>
       </MenuProvider>
-      <Footer />
+      <FooterGate>
+        <Footer />
+      </FooterGate>
     </>
   );
 }

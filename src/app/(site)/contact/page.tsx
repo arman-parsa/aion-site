@@ -26,7 +26,7 @@ export default function ContactPage() {
   const office = site.offices[0];
 
   return (
-    <section data-hide-footer aria-labelledby="contact-title" className="theme-paper">
+    <section aria-labelledby="contact-title" className="theme-paper">
       <Container>
         <div className="grid min-h-svh grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-between gap-2xl pt-page-top pb-xl lg:border-e lg:border-solid lg:border-rule lg:pe-xl">

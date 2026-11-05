@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 /**
  * Home: deliberately minimal. A full-bleed photograph, the wordmark as the
  * page title, one line of tagline and a single Explore link. No footer
- * (data-hide-footer) and the header turns light over the image.
+ * and the header turns light over the image (src/lib/layout/chrome.ts).
  */
 export default function HomePage() {
   const site = getSiteSettings();
@@ -24,8 +24,6 @@ export default function HomePage() {
     <>
       <JsonLd data={organizationSchema(site)} />
       <section
-        data-header-on-image
-        data-hide-footer
         aria-labelledby="home-title"
         className="theme-ink relative isolate grid h-svh min-h-[32rem] overflow-hidden"
       >

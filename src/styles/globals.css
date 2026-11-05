@@ -433,11 +433,6 @@ html.motion-ok [data-reveal]:not([data-motion-ready]) {
   opacity: 0;
 }
 
-/* Pages that opt out of the footer (home). */
-body:has([data-hide-footer]) #site-footer {
-  display: none;
-}
-
 /*
  * Monotone + halftone treatment (after the OCI reference's hover motion). The
  * photo keeps its luminance and takes the ink hue (mix-blend-mode: color), so
