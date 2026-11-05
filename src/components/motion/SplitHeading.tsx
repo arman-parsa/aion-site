@@ -15,6 +15,7 @@ type Props = {
   /** Start when scrolled into view (default) or immediately (hero). */
   trigger?: "scroll" | "load";
   delay?: number;
+  id?: string;
 };
 
 /**
@@ -28,6 +29,7 @@ export function SplitHeading({
   className,
   trigger = "scroll",
   delay = 0,
+  id,
 }: Props) {
   const ref = useRef<HTMLElement>(null);
   const Tag = as as ElementType;
@@ -65,7 +67,7 @@ export function SplitHeading({
   );
 
   return (
-    <Tag ref={ref} data-split className={cn("font-display", stepClasses[size], className)}>
+    <Tag ref={ref} id={id} data-split className={cn("font-display", stepClasses[size], className)}>
       {children}
     </Tag>
   );

@@ -31,8 +31,9 @@ export async function generateMetadata({
 /** Sticky section label in cols 1–3, content in cols 5–11. */
 function Row({ label, id, children }: { label: string; id: string; children: React.ReactNode }) {
   return (
-    <section aria-labelledby={id} className="py-2xl rule">
-      <Grid rowGap="m">
+    <section aria-labelledby={id}>
+      <Rule draw />
+      <Grid rowGap="m" className="py-2xl">
         <div className="col-span-12 md:col-span-3">
           <h2 id={id} className="label text-ink-2 md:sticky md:top-header">
             {label}
@@ -117,7 +118,8 @@ export default async function ServicePage({ params }: PageProps<"/expertise/[slu
         </Row>
 
         {service.outcomes.length > 0 && (
-          <section aria-labelledby="outcomes" className="py-2xl rule">
+          <section aria-labelledby="outcomes" className="pb-2xl">
+            <Rule draw className="mb-2xl" />
             <h2 id="outcomes" className="label text-ink-2">
               {ui.outcomes}
             </h2>

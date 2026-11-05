@@ -45,7 +45,7 @@ export default async function PersonPage({ params }: PageProps<"/people/[slug]">
                   height={person.portrait.height}
                   sizes="(min-width: 768px) 40vw, 100vw"
                   aspect="portrait"
-                  mono
+                  duotone
                   priority
                 />
               </ClipMedia>

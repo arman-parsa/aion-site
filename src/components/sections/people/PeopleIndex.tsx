@@ -56,14 +56,14 @@ export function PeopleIndex({ people, labels }: Props) {
                   )}
                 </span>
                 <span className="col-span-9 text-step-0 text-ink-2 md:col-span-4">{p.role}</span>
-                <span className="col-span-3 col-start-10 row-span-2 row-start-1 md:col-span-2 md:col-start-11 md:row-span-1">
+                <span className="duotone col-span-3 col-start-10 row-span-2 row-start-1 block overflow-hidden md:col-span-2 md:col-start-11 md:row-span-1">
                   <Image
                     src={p.portrait.src}
                     alt=""
                     width={p.portrait.width}
                     height={p.portrait.height}
                     sizes="(min-width: 768px) 12vw, 25vw"
-                    className="aspect-portrait h-auto w-full object-cover grayscale"
+                    className="aspect-portrait h-auto w-full object-cover"
                   />
                 </span>
               </NextLink>
@@ -78,14 +78,14 @@ export function PeopleIndex({ people, labels }: Props) {
           {people.map((p) => (
             <li key={p.href}>
               <NextLink href={p.href} className="group block">
-                <span className="block overflow-hidden">
+                <span className="duotone block overflow-hidden">
                   <Image
                     src={p.portrait.src}
                     alt={p.portrait.alt}
                     width={p.portrait.width}
                     height={p.portrait.height}
                     sizes="(min-width: 1024px) 22vw, (min-width: 768px) 30vw, 45vw"
-                    className="aspect-portrait h-auto w-full object-cover grayscale transition-transform duration-slow ease-out-expo group-hover:scale-[1.03]"
+                    className="aspect-portrait h-auto w-full object-cover transition-transform duration-slow ease-out-expo group-hover:scale-[1.03]"
                   />
                 </span>
                 <span className="mt-s block font-display text-step-3">

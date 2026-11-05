@@ -73,13 +73,11 @@ test.describe("persistent layout", () => {
     await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
   });
 
-  test("footer has CTA, legal links and back to top", async ({ page }) => {
+  test("home has no footer; other pages have legal links and back to top", async ({ page }) => {
     await page.goto("/");
+    await expect(page.locator("#site-footer")).toBeHidden();
+    await page.goto("/expertise");
     const footer = page.locator("#site-footer");
-    await expect(footer.getByRole("link", { name: /Let’s talk/ })).toHaveAttribute(
-      "href",
-      "/contact",
-    );
     await expect(footer.getByRole("link", { name: "Privacy" })).toBeVisible();
     await expect(footer.getByRole("link", { name: /Back to top/ })).toHaveAttribute("href", "#top");
     await expect(footer).toContainText(`© AION Consultancy Ltd ${new Date().getFullYear()}`);

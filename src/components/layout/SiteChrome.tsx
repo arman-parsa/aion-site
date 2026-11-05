@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { SmoothScroll } from "@/components/motion";
+import { ScrollEffects, SmoothScroll } from "@/components/motion";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Menu } from "./Menu";
@@ -13,6 +13,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <span id="top" />
       <SkipLink />
       <SmoothScroll />
+      <ScrollEffects />
       <MenuProvider>
         <Header />
         <Menu />

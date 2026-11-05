@@ -21,8 +21,6 @@ export const ui = {
     linkedin: "LinkedIn",
   },
   footer: {
-    cta: "Let’s talk.",
-    ctaHref: "/contact",
     columns: { navigation: "Navigation", contact: "Contact", offices: "Offices", legal: "Legal" },
     companyNo: "Company no.",
     registeredOffice: "Registered office",

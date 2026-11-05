@@ -13,7 +13,7 @@ export function MenuToggle({ openLabel, closeLabel }: { openLabel: string; close
       aria-expanded={open}
       aria-controls={MENU_ID}
       onClick={() => setOpen(!open)}
-      className="cursor-pointer link-underline py-2xs label"
+      className="inline-flex cursor-pointer items-center link-underline py-2xs label leading-none"
     >
       {open ? closeLabel : openLabel}
     </button>

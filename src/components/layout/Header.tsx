@@ -6,25 +6,25 @@ import { LondonClock } from "./LondonClock";
 import { MenuToggle } from "./MenuToggle";
 import { Wordmark } from "./Wordmark";
 
-/**
- * Fixed header. The bar uses mix-blend-difference with pure white text, so it
- * reads as ink over paper and as near-white over photography or ink sections.
- */
+/** Fixed header: wordmark, live London clock (desktop), Get in touch, Menu. */
 export function Header() {
   const copy = getUiStrings().header;
   return (
     <HeaderShell>
       <Container>
         <div className="grid h-header grid-cols-[1fr_auto_1fr] items-center gap-s">
-          <div data-inert-with-menu className="justify-self-start">
+          <div data-inert-with-menu className="flex items-center justify-self-start">
             <Wordmark />
           </div>
-          <div data-inert-with-menu className="hidden lg:block">
+          <div data-inert-with-menu className="hidden items-center lg:flex">
             <LondonClock label={copy.clockLabel} ariaLabel={copy.clockAria} />
           </div>
           <div className="col-start-3 flex items-center gap-m justify-self-end">
-            <div data-inert-with-menu className="hidden sm:block">
-              <Link href={copy.getInTouchHref} className="py-2xs label">
+            <div data-inert-with-menu className="hidden items-center sm:flex">
+              <Link
+                href={copy.getInTouchHref}
+                className="inline-flex items-center py-2xs label leading-none"
+              >
                 {copy.getInTouch}
               </Link>
             </div>

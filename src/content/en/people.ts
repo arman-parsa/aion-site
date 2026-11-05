@@ -5,8 +5,6 @@ import { placeholderPortrait } from "./images";
  * People. Ali Parsa and Elvina Chung: facts supplied by AION (Nov 2026), from
  * the old site's /team-members/ page.
  *
- * TODO(content): Chris Mullard and M. Morad were in the brief but not in the
- * supplied team details; confirm they should appear, then add roles and bios.
  * TODO(content): real portraits for everyone.
  */
 export const people = [
@@ -50,29 +48,7 @@ export const people = [
     order: 1,
     featured: true,
   },
-  {
-    slug: "chris-mullard",
-    prefix: "Prof.",
-    name: "Chris Mullard",
-    honorifics: ["CBE"],
-    role: "[Role]",
-    shortBio: "[Short bio]",
-    longBio: [{ type: "paragraph", text: "[Long bio]" }],
-    portrait: placeholderPortrait("Placeholder portrait for Prof. Chris Mullard"),
-    order: 2,
-    featured: true,
-  },
-  {
-    slug: "m-morad",
-    prefix: "Prof.",
-    name: "M. Morad", // TODO(content): full first name as the person prefers it.
-    honorifics: [],
-    role: "[Role]",
-    shortBio: "[Short bio]",
-    longBio: [{ type: "paragraph", text: "[Long bio]" }],
-    portrait: placeholderPortrait("Placeholder portrait for Prof. M. Morad"),
-    order: 3,
-  },
+
   {
     slug: "elvina-chung",
     name: "Elvina Chung",
@@ -94,6 +70,6 @@ export const people = [
       },
     ],
     portrait: placeholderPortrait("Placeholder portrait for Elvina Chung"),
-    order: 4,
+    order: 2,
   },
 ] satisfies PersonInput[];

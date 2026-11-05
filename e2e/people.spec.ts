@@ -11,7 +11,7 @@ test.describe("people", () => {
     await page.keyboard.press("Enter");
     await expect(grid).toHaveAttribute("aria-pressed", "true");
     await expect(list).toHaveAttribute("aria-pressed", "false");
-    await expect(page.getByRole("list", { name: "People" }).getByRole("link")).toHaveCount(4);
+    await expect(page.getByRole("list", { name: "People" }).getByRole("link")).toHaveCount(2);
   });
 
   test("person page has valid Person JSON-LD", async ({ page }) => {

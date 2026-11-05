@@ -84,9 +84,9 @@ export function typeMetrics(step: TypeStep): {
   leading: number;
   tracking: string;
 } {
-  if (step >= 7) return { leading: 0.92, tracking: "-0.02em" };
-  if (step >= 5) return { leading: 0.98, tracking: "-0.02em" };
-  if (step >= 3) return { leading: 1.1, tracking: "-0.01em" };
+  if (step >= 7) return { leading: 0.92, tracking: "-0.04em" };
+  if (step >= 5) return { leading: 0.98, tracking: "-0.035em" };
+  if (step >= 3) return { leading: 1.1, tracking: "-0.02em" };
   if (step >= 1) return { leading: 1.3, tracking: "0em" };
   if (step === 0) return { leading: 1.5, tracking: "0em" };
   return { leading: 1.45, tracking: "0.01em" };
