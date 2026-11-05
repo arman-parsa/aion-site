@@ -12,7 +12,7 @@ export function NextPillar({ service, label }: { service: Service; label: string
       </span>
       <span
         aria-hidden
-        className="pointer-events-none absolute end-0 top-1/2 hidden w-1/4 -translate-y-1/2 overflow-hidden transition-[clip-path] duration-slow ease-out-expo [clip-path:inset(100%_0_0_0)] group-hover:[clip-path:inset(0_0_0_0)] group-focus-visible:[clip-path:inset(0_0_0_0)] lg:block"
+        className="pointer-events-none absolute end-0 top-1/2 hidden w-1/4 -translate-y-1/2 overflow-hidden transition-[clip-path] duration-slow ease-out-expo clip-hidden group-hover:clip-shown group-focus-visible:clip-shown lg:block"
       >
         <Image
           src={service.image.src}

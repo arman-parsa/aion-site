@@ -1,8 +1,9 @@
 import { Heading, Media, Text } from "@/components/ui";
-import type { Block, Body } from "@/lib/content";
+import { getUiStrings, type Block, type Body } from "@/lib/content";
 import { cn } from "@/lib/utils/cn";
 
 function BlockView({ block }: { block: Block }) {
+  const q = getUiStrings().quote;
   switch (block.type) {
     case "paragraph":
       return <Text>{block.text}</Text>;
@@ -19,7 +20,11 @@ function BlockView({ block }: { block: Block }) {
     case "quote":
       return (
         <figure>
-          <blockquote className="font-display text-step-4">“{block.text}”</blockquote>
+          <blockquote className="font-display text-step-4">
+            {q.open}
+            {block.text}
+            {q.close}
+          </blockquote>
           {block.attribution && (
             <figcaption className="mt-s label text-ink-2">
               {block.attribution}

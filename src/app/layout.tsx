@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           // Enables motion pre-states (see globals.css). Runs before paint.
           dangerouslySetInnerHTML={{
             __html:
-              "if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-ok')",
+              "document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-ok')",
           }}
         />
       </head>

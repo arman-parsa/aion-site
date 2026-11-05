@@ -126,6 +126,12 @@
   --spacing-gutter: clamp(1.25rem, 0.8462rem + 1.7949vw, 3rem);
   /* Height of the fixed header bar (padding + wordmark line). */
   --spacing-header: calc(var(--spacing-s) * 2 + var(--text-step-2));
+  /* One screen minus the fixed header (one-screen layouts such as /contact). */
+  --spacing-screen-below-header: calc(100svh - var(--spacing-header));
+  /* Cursor-following preview image on the /work index. */
+  --spacing-follower: 22vw;
+  /* Holds layout while streamed content loads. */
+  --spacing-placeholder: 50vh;
   /* Top padding for a page's opening section (clears the fixed header). */
   --spacing-page-top: calc(var(--spacing-header) + var(--spacing-3xl));
   --spacing-grid-gap: clamp(0.75rem, 0.4615rem + 1.2821vw, 2rem);
@@ -425,12 +431,23 @@ html.lenis body {
  */
 html.motion-ok [data-split]:not([data-motion-ready]) {
   visibility: hidden;
+  animation: motion-failsafe 0s 2.5s forwards;
 }
 html.motion-ok [data-clip]:not([data-motion-ready]) {
   clip-path: inset(100% 0% 0% 0%);
+  animation: motion-failsafe 0s 2.5s forwards;
 }
 html.motion-ok [data-reveal]:not([data-motion-ready]) {
   opacity: 0;
+  animation: motion-failsafe 0s 2.5s forwards;
+}
+/* If GSAP never takes over (slow or failed script), show the final state. */
+@keyframes motion-failsafe {
+  to {
+    visibility: visible;
+    clip-path: none;
+    opacity: 1;
+  }
 }
 
 /*
@@ -487,4 +504,17 @@ html.motion-ok [data-draw]:not([data-motion-ready]) {
 .split-line-mask {
   padding-block-end: 0.14em;
   margin-block-end: -0.14em;
+}
+
+/* Clip-path states for hover reveals (transition with transition-[clip-path]). */
+@utility clip-hidden {
+  clip-path: inset(100% 0 0 0);
+}
+@utility clip-shown {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Without JS the Menu toggle can't open anything; the <noscript> nav replaces it. */
+html:not(.js) [data-menu-toggle] {
+  display: none;
 }

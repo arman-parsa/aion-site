@@ -97,7 +97,7 @@ export function WorkIndexList({ rows, columns, label }: Props) {
       <div
         ref={follower}
         aria-hidden
-        className="pointer-events-none fixed start-0 top-0 z-30 hidden aspect-landscape w-[22vw] overflow-hidden [@media(pointer:fine)]:lg:block"
+        className="pointer-events-none fixed start-0 top-0 z-30 hidden aspect-landscape w-follower overflow-hidden [@media(pointer:fine)]:lg:block"
       >
         {rows.map((row, i) => (
           <Image

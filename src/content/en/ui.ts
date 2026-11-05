@@ -1,6 +1,8 @@
 /** Interface strings: labels, aria text, layout copy. Not CMS-managed. */
 export const ui = {
   opensInNewTab: "(opens in a new tab)",
+  linkedin: "LinkedIn",
+  quote: { open: "“", close: "”" },
   skipToContent: "Skip to content",
   header: {
     homeLabel: "AION Consultancy, home",

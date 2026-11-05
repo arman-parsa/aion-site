@@ -4,7 +4,7 @@
  * JS. Both are validated at build time by load.ts via the main getters.
  */
 import { pages } from "@/content/en/pages";
-import { ui } from "@/content/en/ui";
+import { uiStrings as ui } from "./ui-strings";
 
 export const errorCopy = {
   eyebrow: pages.error.eyebrow,

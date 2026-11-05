@@ -1,6 +1,6 @@
 import { Container } from "@/components/ui";
 import { Link } from "@/components/ui/Link";
-import { getUiStrings } from "@/lib/content";
+import { getNavigation, getUiStrings } from "@/lib/content";
 import { HeaderShell } from "./HeaderShell";
 import { LondonClock } from "./LondonClock";
 import { MenuToggle } from "./MenuToggle";
@@ -30,6 +30,17 @@ export function Header() {
               </Link>
             </div>
             <MenuToggle openLabel={copy.menuOpen} closeLabel={copy.menuClose} />
+            <noscript>
+              <nav aria-label={getUiStrings().menu.label}>
+                <ul className="flex gap-m label">
+                  {getNavigation().primary.map((item) => (
+                    <li key={item.href}>
+                      <a href={item.href}>{item.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </noscript>
           </div>
         </div>
       </Container>

@@ -18,7 +18,9 @@ export function ScrollEffects() {
 
   useGSAP(
     () => {
-      const draws = gsap.utils.toArray<HTMLElement>("[data-draw]");
+      // Cache Components keeps visited routes mounted but hidden: skip those.
+      const visible = (el: HTMLElement) => el.getClientRects().length > 0;
+      const draws = gsap.utils.toArray<HTMLElement>("[data-draw]").filter(visible);
       draws.forEach((el) => (el.dataset.motionReady = ""));
       if (prefersReducedMotion()) return;
 
@@ -35,19 +37,22 @@ export function ScrollEffects() {
         );
       });
 
-      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
-        const target = el.querySelector("img") ?? el;
-        gsap.fromTo(
-          target,
-          { yPercent: -6, scale: 1.12 },
-          {
-            yPercent: 6,
-            scale: 1.12,
-            ease: "none",
-            scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
-          },
-        );
-      });
+      gsap.utils
+        .toArray<HTMLElement>("[data-parallax]")
+        .filter(visible)
+        .forEach((el) => {
+          const target = el.querySelector("img") ?? el;
+          gsap.fromTo(
+            target,
+            { yPercent: -6, scale: 1.12 },
+            {
+              yPercent: 6,
+              scale: 1.12,
+              ease: "none",
+              scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+            },
+          );
+        });
 
       ScrollTrigger.refresh();
     },

@@ -25,7 +25,7 @@ export default function HomePage() {
       <JsonLd data={organizationSchema(site)} />
       <section
         aria-labelledby="home-title"
-        className="theme-ink relative isolate grid h-svh min-h-[32rem] overflow-hidden"
+        className="theme-ink relative isolate grid h-svh overflow-hidden"
       >
         {hero && (
           <HeroMedia>
@@ -42,7 +42,7 @@ export default function HomePage() {
         {/* Legibility scrim behind the type block (functional, not decorative). */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-linear-to-r from-scrim/75 via-scrim/40 to-transparent"
+          className="absolute inset-0 bg-linear-to-r from-scrim/75 via-scrim/40 to-transparent rtl:bg-linear-to-l"
         />
         <div
           aria-hidden

@@ -1,6 +1,6 @@
 import NextLink from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { getUiStrings } from "@/lib/content";
+import { uiStrings } from "@/lib/content/ui-strings";
 import { cn } from "@/lib/utils/cn";
 
 const underlines = {
@@ -57,7 +57,7 @@ export function Link({
       {...props}
     >
       {children}
-      {openNew && <span className="sr-only"> {getUiStrings().opensInNewTab}</span>}
+      {openNew && <span className="sr-only"> {uiStrings.opensInNewTab}</span>}
     </a>
   );
 }

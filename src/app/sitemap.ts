@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getCaseStudies, getInsights, getPeople, getServices, isFeatureOn } from "@/lib/content";
+import { getCaseStudies, getPeople, getServices, isFeatureOn } from "@/lib/content";
 import { siteUrl } from "@/lib/seo";
 
 /** Public, indexable pages only (no /styleguide, placeholders or hidden sections). */
@@ -33,8 +33,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
   if (isFeatureOn("showInsights")) {
     pages.push({ url: url("/insights"), changeFrequency: "weekly", priority: 0.6 });
-    for (const n of getInsights())
-      pages.push({ url: url(`/insights/${n.slug}`), lastModified: n.date, priority: 0.5 });
   }
   return pages;
 }

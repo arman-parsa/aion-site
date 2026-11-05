@@ -43,8 +43,10 @@ type Props = {
 
 const noopSubscribe = () => () => {};
 
+type TurnstileWindow = Window & { turnstile?: { reset: (widget?: string) => void } };
+
 const inputClass =
-  "mt-2xs block w-full rounded-none border-0 border-b border-solid border-ink bg-transparent py-2xs text-step-1 text-ink placeholder:text-stone focus:border-accent focus:outline-none focus-visible:outline-none aria-invalid:border-accent";
+  "mt-2xs block w-full rounded-none border-0 border-b border-solid border-ink bg-transparent py-2xs text-step-1 text-ink placeholder:text-stone focus:border-ink aria-invalid:border-accent";
 
 /**
  * Contact form. Works without JS (plain form post to the server action);
@@ -72,6 +74,8 @@ export function ContactForm({ action, copy, privacyHref, turnstileSiteKey }: Pro
   useEffect(() => {
     if (state.status === "idle") return;
     if (state.status === "success") formRef.current?.reset();
+    // Turnstile tokens are single-use: get a fresh one for the next attempt.
+    if (state.status === "error") (window as TurnstileWindow).turnstile?.reset();
     const firstInvalid = formRef.current?.querySelector<HTMLElement>("[aria-invalid='true']");
     (firstInvalid ?? statusRef.current)?.focus();
   }, [state]);

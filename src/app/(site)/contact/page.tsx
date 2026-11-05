@@ -29,7 +29,7 @@ export default function ContactPage() {
     <section aria-labelledby="contact-title" className="theme-paper">
       <Container>
         {/* Starts below the header so the dividing line never runs behind the nav. */}
-        <div className="mt-header grid min-h-[calc(100svh-var(--spacing-header))] grid-cols-1 lg:grid-cols-2">
+        <div className="mt-header grid min-h-screen-below-header grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-between gap-2xl pt-2xl pb-xl lg:border-e lg:border-solid lg:border-rule lg:pe-xl">
             <SplitHeading
               as="h1"
@@ -85,7 +85,22 @@ export default function ContactPage() {
           <div className="flex flex-col justify-center pt-xl pb-xl lg:ps-xl lg:pt-2xl">
             <ContactForm
               action={submitContact}
-              copy={c}
+              copy={{
+                formHeading: c.formHeading,
+                fields: c.fields,
+                enquiryTypes: c.enquiryTypes,
+                submit: c.submit,
+                sending: c.sending,
+                errors: {
+                  name: c.errors.name,
+                  email: c.errors.email,
+                  enquiryType: c.errors.enquiryType,
+                  messageShort: c.errors.messageShort,
+                  messageLong: c.errors.messageLong,
+                  consent: c.errors.consent,
+                  summary: c.errors.summary,
+                },
+              }}
               privacyHref="/privacy"
               turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
             />

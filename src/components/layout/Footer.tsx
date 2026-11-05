@@ -44,7 +44,7 @@ export function Footer() {
               </li>
               {site.contact.linkedin && (
                 <li>
-                  <Link href={site.contact.linkedin}>LinkedIn</Link>
+                  <Link href={site.contact.linkedin}>{getUiStrings().linkedin}</Link>
                 </li>
               )}
             </ul>
