@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import placeholderLandscape from "../../../public/images/placeholders/plate-landscape.jpg";
-import placeholderPortrait from "../../../public/images/placeholders/plate-portrait.jpg";
+import placeholderLandscape from "../../../../public/images/placeholders/plate-landscape.jpg";
+import placeholderPortrait from "../../../../public/images/placeholders/plate-portrait.jpg";
 import {
   Button,
   Container,
@@ -87,7 +87,7 @@ function Swatches({ theme = "paper" }: { theme?: "paper" | "ink" }) {
 export default function StyleguidePage() {
   const p = copy.primitives;
   return (
-    <main id="main">
+    <>
       <Section spacing="xl">
         <Eyebrow>AION / {copy.meta.title}</Eyebrow>
         <Heading as="h1" size={8} className="mt-m">
@@ -313,6 +313,6 @@ export default function StyleguidePage() {
       <Container className="pb-2xl">
         <Rule />
       </Container>
-    </main>
+    </>
   );
 }

@@ -1,10 +1,13 @@
+import { Heading, Section } from "@/components/ui";
 import { getHome } from "@/lib/content";
 
 export default function HomePage() {
   const { placeholder } = getHome();
   return (
-    <main id="main" className="grid min-h-dvh place-items-center p-8">
-      <h1 className="text-4xl">{placeholder}</h1>
-    </main>
+    <Section spacing="none" className="grid min-h-dvh items-center">
+      <Heading as="h1" size={6}>
+        {placeholder}
+      </Heading>
+    </Section>
   );
 }
