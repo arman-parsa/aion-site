@@ -20,7 +20,10 @@ Marketing site for AION Consultancy Ltd (UK). Real estate, urban regeneration, r
 - `pnpm lint` / `pnpm typecheck` / `pnpm test` / `pnpm test:e2e`
 - `pnpm check` — runs lint + typecheck + unit tests. Run it after every change set.
 - `pnpm screenshot` — full-page PNGs of every route at 390/768/1440/1920 into `/screenshots` (needs a prior `pnpm build`, Node 22.18+).
-- Env: copy `.env.example` to `.env.local`. `src/env.ts` validates at build; `SKIP_ENV_VALIDATION=1` bypasses.
+- `pnpm content:todo` — lists every [placeholder] value and placeholder image still in the content.
+- `pnpm tokens` — prints the fluid type/space scale generated from `src/styles/tokens.ts`.
+- Env: copy `.env.example` to `.env.local`. `src/env.ts` validates at build; `SKIP_ENV_VALIDATION=1` bypasses. `CONTENT_PREVIEW=1` (never on production) shows feature-flagged sections and placeholder entries. `CONTACT_TEST_MODE=1` logs contact emails and skips Turnstile (used by e2e).
+- Launch tasks: see `docs/launch-checklist.md`. Content model: `docs/content-model.md`.
 
 ## Architecture
 
