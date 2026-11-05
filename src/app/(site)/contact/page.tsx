@@ -28,8 +28,9 @@ export default function ContactPage() {
   return (
     <section aria-labelledby="contact-title" className="theme-paper">
       <Container>
-        <div className="grid min-h-svh grid-cols-1 lg:grid-cols-2">
-          <div className="flex flex-col justify-between gap-2xl pt-page-top pb-xl lg:border-e lg:border-solid lg:border-rule lg:pe-xl">
+        {/* Starts below the header so the dividing line never runs behind the nav. */}
+        <div className="mt-header grid min-h-[calc(100svh-var(--spacing-header))] grid-cols-1 lg:grid-cols-2">
+          <div className="flex flex-col justify-between gap-2xl pt-2xl pb-xl lg:border-e lg:border-solid lg:border-rule lg:pe-xl">
             <SplitHeading
               as="h1"
               id="contact-title"
@@ -81,7 +82,7 @@ export default function ContactPage() {
             </Reveal>
           </div>
 
-          <div className="flex flex-col justify-center pt-xl pb-2xl lg:ps-xl lg:pt-page-top">
+          <div className="flex flex-col justify-center pt-xl pb-xl lg:ps-xl lg:pt-2xl">
             <ContactForm
               action={submitContact}
               copy={c}
